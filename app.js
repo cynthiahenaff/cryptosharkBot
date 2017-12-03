@@ -3,6 +3,8 @@ require('dotenv').config();
 const KrakenClient = require('kraken-api');
 const Telegraf = require('telegraf')
 
+
+console.log('Bot is starting');
 const key          = process.env.KRAKEN_KEY; // API Key
 const secret       = process.env.KRAKEN_SECRET; // API Private Key
 const kraken       = new KrakenClient(key, secret, {
