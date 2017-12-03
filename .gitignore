@@ -1,0 +1,5 @@
+.env
+node_modules
+
+# File created by mac
+.DS_Store 

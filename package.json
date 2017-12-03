@@ -1,0 +1,11 @@
+{
+  "name": "butterInTheSpinachBot",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "kraken-api": "^1.0.0",
+    "telegraf": "^3.17.0"
+  }
+}
