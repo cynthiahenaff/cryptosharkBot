@@ -5,7 +5,9 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^4.0.0",
+    "eslint": "^4.12.1",
     "kraken-api": "^1.0.0",
+    "mongodb": "^2.2.33",
     "telegraf": "^3.17.0"
   },
   "scripts": {
