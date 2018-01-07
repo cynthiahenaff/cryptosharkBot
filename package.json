@@ -4,6 +4,7 @@
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
+    "ccxt": "^1.10.587",
     "dotenv": "^4.0.0",
     "eslint": "^4.12.1",
     "kraken-api": "^1.0.0",
