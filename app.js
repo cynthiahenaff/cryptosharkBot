@@ -4,26 +4,7 @@ const ccxt = require('ccxt');
 const delay = require('timeout-as-promise');
 const { MongoClient, ObjectID } = require('mongodb');
 const Telegraf = require('telegraf');
-
-const cryptos = [
-  {
-    symbol: 'BTC/EUR',
-    name: 'Bitcoin',
-    exchange: 'gdax',
-    command: 'bitcoin',
-  },
-  {
-    symbol: 'ETH/EUR',
-    name: 'Ethereum',
-    exchange: 'gdax',
-    command: 'ether',
-  },{
-    symbol: 'XRP/EUR',
-    name: 'Ripple',
-    exchange: 'kraken',
-    command: 'ripple',
-  },
-];
+const cryptos = require('./cryptos.json');
 
 (async () => {
   console.log('Bot is starting');
@@ -53,7 +34,7 @@ const cryptos = [
   bot.command('help', (ctx) => {
     let message = '/howMuch - Query the market\n';
     for (const crypto of cryptos) {
-      message = message + `/${crypto.command} - Amount of ${crypto.name} in Euro\n`;
+      message = message + `/${crypto.command} - Amount of ${crypto.name} in ${crypto.currencyName}\n`;
     }
     ctx.reply(message);
   });
@@ -61,10 +42,12 @@ const cryptos = [
   bot.command('howMuch', async (ctx) => {
     ctx.reply('I\'m searching...');
     try {
-      const sentence = await getTickers();
-      ctx.reply(sentence);
-      // Shortest version:
-      // ctx.reply(getTickers());
+      let message = '';
+      for (const crypto of cryptos) {
+        const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
+        message = message + `${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}\n`;
+      }
+      ctx.reply(message);
     }
     catch (error) {
       ctx.reply('Sorry there is an error. Please try again in a few minutes.');
@@ -75,7 +58,7 @@ const cryptos = [
     bot.command(crypto.command, async (ctx) => {
       try {
         const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
-        ctx.reply(`${crypto.name} is at ${lastValue} euros on ${crypto.exchange}`);
+        ctx.reply(`${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}`);
       }
       catch (error) {
         ctx.reply('Sorry there is an error. Please try again in a few minutes.');
@@ -89,25 +72,17 @@ const cryptos = [
 
   bot.startPolling();
 
-
-  const getTickers = async () => {
-    // Get Ticker Info
-    let message = 'I send you every hour the crypto market value 🤖💰\n\n';
-    for (const crypto of cryptos) {
-      const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
-      // const lastBtc = await fetchTicker('gdax', 'BTC/EUR');
-      // const lastEth = await fetchTicker('gdax', 'ETH/EUR');
-      // const lastXrp = await fetchTicker('kraken', 'XRP/EUR');
-      message = message + `${crypto.name} is at ${lastValue} euros on ${crypto.exchange}\n`;
-    }
-    return message;
-  };
-
   const messageToChannel = async () => {
     while (true) {
       try {
-        const sentence = await getTickers();
-        bot.telegram.sendMessage(channelId, sentence);
+        let message = 'I send you every hour the crypto market value 🤖💰\n\n';
+        for (const crypto of cryptos) {
+          if (crypto.postOnChannel === true) {
+            const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
+            message = message + `${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}\n`;
+          }
+        }
+        bot.telegram.sendMessage(channelId, message);
         break;
       }
       catch (error) {
@@ -117,5 +92,12 @@ const cryptos = [
   };
 
   setInterval(messageToChannel, 60 * 60 * 1000);
+
+
+  const advertiseToChannel = async () => {
+    const message = 'Don\'t forget, you can talk directly with me by clicking on this link @ButterInTheSpinachBot 🤖 and join my mom at https://twitter.com/monsieur_riz';
+    bot.telegram.sendMessage(channelId, message);
+  };
+  setInterval(advertiseToChannel, 24 * 60 * 60 * 1000);
 
 })();

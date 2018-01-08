@@ -1,0 +1,74 @@
+[
+  {
+    "symbol": "BTC/EUR",
+    "name": "Bitcoin",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "exchange": "gdax",
+    "command": "bitcoin",
+    "postOnChannel": true
+  },
+  {
+    "symbol": "ETH/EUR",
+    "name": "Ethereum",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "exchange": "gdax",
+    "command": "ether",
+    "postOnChannel": true
+  },
+  {
+    "symbol": "XRP/EUR",
+    "name": "Ripple",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "exchange": "kraken",
+    "command": "ripple",
+    "postOnChannel": true
+  },
+  {
+    "symbol": "LTC/EUR",
+    "name": "Litecoin",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "exchange": "gdax",
+    "command": "litecoin",
+    "postOnChannel": true
+  },
+  {
+    "symbol": "DASH/EUR",
+    "name": "Dash",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "exchange": "kraken",
+    "command": "dash",
+    "postOnChannel": false
+  },
+  {
+    "symbol": "BCH/EUR",
+    "name": "Bitcoin Cash",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "exchange": "bitstamp",
+    "command": "bitcoinCash",
+    "postOnChannel": false
+  },
+  {
+    "symbol": "ADA/BTC",
+    "name": "Cardano",
+    "currencyName": "Bitcoin",
+    "currencySymbol": "BTC",
+    "exchange": "binance",
+    "command": "cardano",
+    "postOnChannel": false
+  },
+  {
+    "symbol": "XLM/BTC",
+    "name": "Stellar",
+    "currencyName": "Bitcoin",
+    "currencySymbol": "BTC", 
+    "exchange": "binance",
+    "command": "stellar",
+    "postOnChannel": false
+  }
+]
