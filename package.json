@@ -9,7 +9,8 @@
     "eslint": "^4.12.1",
     "kraken-api": "^1.0.0",
     "mongodb": "^2.2.33",
-    "telegraf": "^3.17.0"
+    "telegraf": "^3.17.0",
+    "timeout-as-promise": "^1.0.0"
   },
   "scripts": {
     "start": "node app.js"

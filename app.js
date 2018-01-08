@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const ccxt = require('ccxt');
+const delay = require('timeout-as-promise');
 const { MongoClient, ObjectID } = require('mongodb');
 const Telegraf = require('telegraf');
 
@@ -91,25 +92,28 @@ const cryptos = [
 
   const getTickers = async () => {
     // Get Ticker Info
-    try {
-      let message = '';
-      for (const crypto of cryptos) {
-        const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
-        // const lastBtc = await fetchTicker('gdax', 'BTC/EUR');
-        // const lastEth = await fetchTicker('gdax', 'ETH/EUR');
-        // const lastXrp = await fetchTicker('kraken', 'XRP/EUR');
-        message = message + `${crypto.name} is at ${lastValue} euros on ${crypto.exchange}\n`;
-      }
-      return message;
+    let message = '';
+    for (const crypto of cryptos) {
+      const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
+      // const lastBtc = await fetchTicker('gdax', 'BTC/EUR');
+      // const lastEth = await fetchTicker('gdax', 'ETH/EUR');
+      // const lastXrp = await fetchTicker('kraken', 'XRP/EUR');
+      message = message + `${crypto.name} is at ${lastValue} euros on ${crypto.exchange}\n`;
     }
-    catch (error) {
-      return 'Sorry there is an error. Please try again in a few minutes.';
-    }
+    return message;
   };
 
   const messageToChannel = async () => {
-    const sentence = await getTickers();
-    bot.telegram.sendMessage(channelId, sentence);
+    while (true) {
+      try {
+        const sentence = await getTickers();
+        bot.telegram.sendMessage(channelId, sentence);
+        break;
+      }
+      catch (error) {
+        await delay(10 * 1000);
+      }
+    }
   };
 
   setInterval(messageToChannel, 60 * 60 * 1000);
