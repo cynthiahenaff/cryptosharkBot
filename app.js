@@ -92,7 +92,7 @@ const cryptos = [
 
   const getTickers = async () => {
     // Get Ticker Info
-    let message = '';
+    let message = 'I send you every hour the crypto market value 🤖💰\n\n';
     for (const crypto of cryptos) {
       const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
       // const lastBtc = await fetchTicker('gdax', 'BTC/EUR');
