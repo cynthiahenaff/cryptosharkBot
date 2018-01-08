@@ -933,6 +933,10 @@ timed-out@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
 
+timeout-as-promise@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/timeout-as-promise/-/timeout-as-promise-1.0.0.tgz#7367e811fc992acfcdcdaabf2e50dfaf8b21576f"
+
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
