@@ -26,9 +26,12 @@ const cryptos = require('./cryptos.json');
     console.log(ctx.from);
     await db.collection('users').insert(ctx.from);
 
+    const momId = 353733726;
+    const messageToMom = `Hello mom, ${ctx.from.first_name} ${ctx.from.last_name} talked to me 🤖💋`;
+    await bot.telegram.sendMessage(momId, messageToMom);
+
     return ctx.reply(`Welcome ${ctx.from.first_name}!\n\nI'm Cryptobot, nice to meet you.\nUse /help to know me better.\n\nIf you have some suggestion, you can contact (and follow 👍) my mom Cynthia on twitter https://twitter.com/monsieur_riz\n\nEnjoy! 😁💰🤘  `);
   });
-
 
 
   bot.command('help', (ctx) => {
@@ -71,6 +74,7 @@ const cryptos = require('./cryptos.json');
   // bot.on('sticker', (ctx) => ctx.reply('👍'))
 
   bot.startPolling();
+
 
   const messageToChannel = async () => {
     while (true) {
