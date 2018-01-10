@@ -35,7 +35,7 @@ const cryptos = require('./cryptos.json');
   };
 
   const channelId = '@ButterInTheSpinach';
-  const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
+  const bot = new Telegraf(process.env.TELEGRAM_TOKEN, { username: 'ButterInTheSpinachBot' });
 
   bot.start(async (ctx) => {
     console.log('started:', ctx.from.id);
