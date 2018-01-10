@@ -39,7 +39,6 @@ const cryptos = require('./cryptos.json');
 
   // Log messages to DB
   bot.use(async (ctx, next) => {
-    console.log('OK');
     if (ctx.updateType === 'message') {
       await db.collection('messages').insert(ctx.update.message);
     }
@@ -61,7 +60,7 @@ const cryptos = require('./cryptos.json');
   bot.command('help', (ctx) => {
     let message = '/howMuch - Query the market\n';
     for (const crypto of cryptos) {
-      message = message + `/${crypto.command} - Amount of ${crypto.name} in ${crypto.currencyName}\n`;
+      message = message + `/${crypto.command} - Value of ${crypto.name} in ${crypto.currencyName}\n`;
     }
     ctx.reply(message);
   });
