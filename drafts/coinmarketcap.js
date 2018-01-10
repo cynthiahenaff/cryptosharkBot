@@ -14,5 +14,16 @@ const ticker = async (currency) => {
 
 (async () => {
   const result = await ticker('bitcoin');
-  console.log(result.lastValue);
+  // console.log(result.lastValue);
+  let numObj = parseFloat(result.lastValue);
+  if (numObj < 0) {
+    numObj = numObj.toFixed(6);
+  }
+  else if (numObj < 10) {
+    numObj = numObj.toFixed(4);
+  }
+  else {
+    numObj = numObj.toFixed(2);
+  }
+  console.log(numObj);
 })();

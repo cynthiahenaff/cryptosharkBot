@@ -15,8 +15,20 @@ const cryptos = require('./cryptos.json');
 
   const coinmarketcapFetchTicker = async (currency) => {
     const getTicker = await axios.get(`https://api.coinmarketcap.com/v1/ticker/${currency}/?convert=EUR`);
+
+    let lastValue = parseFloat(getTicker.data[0].price_eur);
+    if (lastValue < 1) {
+      lastValue = lastValue.toFixed(6);
+    }
+    else if (lastValue < 10) {
+      lastValue = lastValue.toFixed(4);
+    }
+    else {
+      lastValue = lastValue.toFixed(2);
+    }
+
     return {
-      lastValue: getTicker.data[0].price_eur,
+      lastValue: lastValue,
       changeOver1h: getTicker.data[0].percent_change_1h,
       changeOver24h: getTicker.data[0].percent_change_24h,
       changeOver7d: getTicker.data[0].percent_change_7d
