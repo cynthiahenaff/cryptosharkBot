@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const axios = require('axios');
-const ccxt = require('ccxt');
 const delay = require('timeout-as-promise');
 const { MongoClient, ObjectID } = require('mongodb');
 const Telegraf = require('telegraf');
@@ -35,12 +34,6 @@ const cryptos = require('./cryptos.json');
     };
   };
 
-  const fetchTicker = async (exchangeName, symbol) => {
-    const exchange = new ccxt[exchangeName]();
-    const ticker = await exchange.fetchTicker(symbol);
-    return ticker.last;
-  };
-
   const channelId = '@ButterInTheSpinach';
   const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
@@ -70,8 +63,6 @@ const cryptos = require('./cryptos.json');
     try {
       let message = '';
       for (const crypto of cryptos) {
-        // const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
-        // message = message + `${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}\n`;
         const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
         message = message + `${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}\n`;
       }
@@ -85,8 +76,6 @@ const cryptos = require('./cryptos.json');
   for (const crypto of cryptos) {
     bot.command(crypto.command, async (ctx) => {
       try {
-        // const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
-        // ctx.reply(`${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}`);
         const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
         ctx.reply(`${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}
 
@@ -106,15 +95,14 @@ Evolution over 7 days: ${result.changeOver7d} %`);
 
   bot.startPolling();
 
-
   const messageToChannel = async () => {
     while (true) {
       try {
         let message = 'I send you every hour the crypto market value 🤖💰\n\n';
         for (const crypto of cryptos) {
           if (crypto.postOnChannel === true) {
-            const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
-            message = message + `${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}\n`;
+            const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
+            message = message + `${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}\n`;
           }
         }
         bot.telegram.sendMessage(channelId, message);
@@ -125,7 +113,6 @@ Evolution over 7 days: ${result.changeOver7d} %`);
       }
     }
   };
-
   setInterval(messageToChannel, 60 * 60 * 1000);
 
 

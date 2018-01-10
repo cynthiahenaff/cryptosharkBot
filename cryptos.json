@@ -44,7 +44,6 @@
     "name": "Dash",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "exchange": "kraken",
     "command": "dash",
     "nameOnCoinmarketcap": "dash",
     "postOnChannel": false
@@ -54,7 +53,6 @@
     "name": "Bitcoin Cash",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "exchange": "bitstamp",
     "command": "bitcoinCash",
     "nameOnCoinmarketcap": "bitcoin-cash",
     "postOnChannel": false
@@ -64,7 +62,6 @@
     "name": "Cardano",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "exchange": "binance",
     "command": "cardano",
     "nameOnCoinmarketcap": "cardano",
     "postOnChannel": false
@@ -74,7 +71,6 @@
     "name": "Stellar",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "exchange": "binance",
     "command": "stellar",
     "nameOnCoinmarketcap": "stellar",
     "postOnChannel": false
