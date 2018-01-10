@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const axios = require('axios');
 const ccxt = require('ccxt');
 const delay = require('timeout-as-promise');
 const { MongoClient, ObjectID } = require('mongodb');
@@ -11,6 +12,16 @@ const cryptos = require('./cryptos.json');
 
   console.log('Connection to the database');
   const db = await MongoClient.connect(process.env.MONGODB_URL);
+
+  const coinmarketcapFetchTicker = async (currency) => {
+    const getTicker = await axios.get(`https://api.coinmarketcap.com/v1/ticker/${currency}/?convert=EUR`);
+    return {
+      lastValue: getTicker.data[0].price_eur,
+      changeOver1h: getTicker.data[0].percent_change_1h,
+      changeOver24h: getTicker.data[0].percent_change_24h,
+      changeOver7d: getTicker.data[0].percent_change_7d
+    };
+  };
 
   const fetchTicker = async (exchangeName, symbol) => {
     const exchange = new ccxt[exchangeName]();
@@ -47,8 +58,10 @@ const cryptos = require('./cryptos.json');
     try {
       let message = '';
       for (const crypto of cryptos) {
-        const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
-        message = message + `${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}\n`;
+        // const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
+        // message = message + `${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}\n`;
+        const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
+        message = message + `${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}\n`;
       }
       ctx.reply(message);
     }
@@ -60,8 +73,14 @@ const cryptos = require('./cryptos.json');
   for (const crypto of cryptos) {
     bot.command(crypto.command, async (ctx) => {
       try {
-        const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
-        ctx.reply(`${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}`);
+        // const lastValue = await fetchTicker(crypto.exchange, crypto.symbol);
+        // ctx.reply(`${crypto.name} is at ${lastValue} ${crypto.currencySymbol} on ${crypto.exchange}`);
+        const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
+        ctx.reply(`${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}
+
+Evolution over 1h : ${result.changeOver1h} %
+Evolution over 24h: ${result.changeOver24h} %
+Evolution over 7 days: ${result.changeOver7d} %`);
       }
       catch (error) {
         ctx.reply('Sorry there is an error. Please try again in a few minutes.');

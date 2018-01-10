@@ -6,6 +6,7 @@
     "currencySymbol": "€",
     "exchange": "gdax",
     "command": "bitcoin",
+    "nameOnCoinmarketcap": "bitcoin",
     "postOnChannel": true
   },
   {
@@ -15,6 +16,7 @@
     "currencySymbol": "€",
     "exchange": "gdax",
     "command": "ether",
+    "nameOnCoinmarketcap": "ethereum",
     "postOnChannel": true
   },
   {
@@ -24,6 +26,7 @@
     "currencySymbol": "€",
     "exchange": "kraken",
     "command": "ripple",
+    "nameOnCoinmarketcap": "ripple",
     "postOnChannel": true
   },
   {
@@ -33,6 +36,7 @@
     "currencySymbol": "€",
     "exchange": "gdax",
     "command": "litecoin",
+    "nameOnCoinmarketcap": "litecoin",
     "postOnChannel": true
   },
   {
@@ -42,6 +46,7 @@
     "currencySymbol": "€",
     "exchange": "kraken",
     "command": "dash",
+    "nameOnCoinmarketcap": "dash",
     "postOnChannel": false
   },
   {
@@ -51,24 +56,27 @@
     "currencySymbol": "€",
     "exchange": "bitstamp",
     "command": "bitcoinCash",
+    "nameOnCoinmarketcap": "bitcoin-cash",
     "postOnChannel": false
   },
   {
     "symbol": "ADA/BTC",
     "name": "Cardano",
-    "currencyName": "Bitcoin",
-    "currencySymbol": "BTC",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
     "exchange": "binance",
     "command": "cardano",
+    "nameOnCoinmarketcap": "cardano",
     "postOnChannel": false
   },
   {
     "symbol": "XLM/BTC",
     "name": "Stellar",
-    "currencyName": "Bitcoin",
-    "currencySymbol": "BTC", 
+    "currencyName": "Euro",
+    "currencySymbol": "€",
     "exchange": "binance",
     "command": "stellar",
+    "nameOnCoinmarketcap": "stellar",
     "postOnChannel": false
   }
 ]
