@@ -6,6 +6,8 @@ const { MongoClient, ObjectID } = require('mongodb');
 const Telegraf = require('telegraf');
 const cryptos = require('./cryptos.json');
 
+const momId = 353733726;
+
 (async () => {
   console.log('Bot is starting');
 
@@ -43,13 +45,11 @@ const cryptos = require('./cryptos.json');
       await db.collection('messages').insert(ctx.update.message);
     }
     await next();
-
   });
 
   bot.start(async (ctx) => {
     await db.collection('users').insert(ctx.from);
 
-    const momId = 353733726;
     const messageToMom = `Hello mom, ${ctx.from.first_name} ${ctx.from.last_name} talked to me 🤖💋`;
     await bot.telegram.sendMessage(momId, messageToMom);
 
@@ -95,6 +95,24 @@ Evolution over 7 days: ${result.changeOver7d} %`);
       }
     });
   }
+
+  bot.command('messagesLogs', async (ctx) => {
+    if (ctx.from.id !== momId) {
+      return;
+    }
+    const dateLess24h = (Date.now() / 1000) - (24 * 60 * 60);
+    const messages = await db.collection('messages')
+      .find({ date: { $gt: dateLess24h } })
+      .sort({ date: 1 })
+      .toArray();
+
+    let messageToMom = 'This is the logs over last 24 hours.\n\n';
+    for (const message of messages) {
+      messageToMom = messageToMom + `${message.from.first_name} ${message.from.last_name} (${message.chat.type}): ${message.text}\n`;
+    }
+    ctx.reply(messageToMom);
+  });
+
   // bot.on('new_chat_members', (ctx) => ctx.reply(`Hello ${ctx.from.first_name}`));
   // bot.hears('hi', (ctx) => ctx.reply('Hey there!'))
   // bot.hears(/buy/i, (ctx) => ctx.reply('Buy-buy!'))
