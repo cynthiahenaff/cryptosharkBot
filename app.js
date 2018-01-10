@@ -105,6 +105,7 @@ Evolution over 7 days: ${result.changeOver7d} %`);
             message = message + `${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}\n`;
           }
         }
+        message = message + '\nYou can ask me for more currencies by clicking on this link @ButterInTheSpinachBot 🤖';
         bot.telegram.sendMessage(channelId, message);
         break;
       }
