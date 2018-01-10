@@ -1,6 +1,5 @@
 [
   {
-    "symbol": "BTC/EUR",
     "name": "Bitcoin",
     "currencyName": "Euro",
     "currencySymbol": "€",
@@ -10,7 +9,6 @@
     "postOnChannel": true
   },
   {
-    "symbol": "ETH/EUR",
     "name": "Ethereum",
     "currencyName": "Euro",
     "currencySymbol": "€",
@@ -20,7 +18,6 @@
     "postOnChannel": true
   },
   {
-    "symbol": "XRP/EUR",
     "name": "Ripple",
     "currencyName": "Euro",
     "currencySymbol": "€",
@@ -30,7 +27,6 @@
     "postOnChannel": true
   },
   {
-    "symbol": "LTC/EUR",
     "name": "Litecoin",
     "currencyName": "Euro",
     "currencySymbol": "€",
@@ -40,7 +36,6 @@
     "postOnChannel": true
   },
   {
-    "symbol": "DASH/EUR",
     "name": "Dash",
     "currencyName": "Euro",
     "currencySymbol": "€",
@@ -49,16 +44,14 @@
     "postOnChannel": false
   },
   {
-    "symbol": "BCH/EUR",
     "name": "Bitcoin Cash",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "command": "bitcoinCash",
+    "command": "bitcoincash",
     "nameOnCoinmarketcap": "bitcoin-cash",
     "postOnChannel": false
   },
   {
-    "symbol": "ADA/BTC",
     "name": "Cardano",
     "currencyName": "Euro",
     "currencySymbol": "€",
@@ -67,12 +60,107 @@
     "postOnChannel": false
   },
   {
-    "symbol": "XLM/BTC",
     "name": "Stellar",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "stellar",
     "nameOnCoinmarketcap": "stellar",
+    "postOnChannel": false
+  },
+  {
+    "name": "NEM",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "nem",
+    "nameOnCoinmarketcap": "nem",
+    "postOnChannel": false
+  },
+  {
+    "name": "IOTA",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "iota",
+    "nameOnCoinmarketcap": "iota",
+    "postOnChannel": false
+  },
+  {
+    "name": "NEO",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "neo",
+    "nameOnCoinmarketcap": "neo",
+    "postOnChannel": false
+  },
+  {
+    "name": "TRON",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "tron",
+    "nameOnCoinmarketcap": "tron",
+    "postOnChannel": false
+  },
+  {
+    "name": "EOS",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "eos",
+    "nameOnCoinmarketcap": "eos",
+    "postOnChannel": false
+  },
+  {
+    "name": "Monero",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "monero",
+    "nameOnCoinmarketcap": "monero",
+    "postOnChannel": false
+  },
+  {
+    "name": "ICON",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "icon",
+    "nameOnCoinmarketcap": "icon",
+    "postOnChannel": false
+  },
+  {
+    "name": "Bitcoin Gold",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "bitcoingold",
+    "nameOnCoinmarketcap": "bitcoin-gold",
+    "postOnChannel": false
+  },
+  {
+    "name": "Qtum",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "qtum",
+    "nameOnCoinmarketcap": "qtum",
+    "postOnChannel": false
+  },
+  {
+    "name": "RaiBlocks",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "raiblocks",
+    "nameOnCoinmarketcap": "raiblocks",
+    "postOnChannel": false
+  },
+  {
+    "name": "Ethereum Classic",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "ethereumclassic",
+    "nameOnCoinmarketcap": "ethereum-classic",
+    "postOnChannel": false
+  },
+  {
+    "name": "Lisk",
+    "currencyName": "Euro",
+    "currencySymbol": "€",
+    "command": "lisk",
+    "nameOnCoinmarketcap": "lisk",
     "postOnChannel": false
   }
 ]
