@@ -4,6 +4,7 @@
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
     "ccxt": "^1.10.587",
     "dotenv": "^4.0.0",
     "eslint": "^4.12.1",
