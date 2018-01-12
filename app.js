@@ -60,7 +60,7 @@ const momId = 353733726;
   bot.command('help', (ctx) => {
     let message = '/howMuch - Query the market\n';
     for (const crypto of cryptos) {
-      message = message + `/${crypto.command} - Value of ${crypto.name} in ${crypto.currencyName}\n`;
+      message = message + `/${crypto.symbol} - Value of ${crypto.name} in ${crypto.currencyName}\n`;
     }
     ctx.reply(message);
   });
@@ -81,7 +81,7 @@ const momId = 353733726;
   });
 
   for (const crypto of cryptos) {
-    bot.command(crypto.command, async (ctx) => {
+    bot.command([crypto.command, crypto.symbol], async (ctx) => {
       try {
         const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
         ctx.reply(`${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}
