@@ -1,42 +1,43 @@
 [
   {
     "name": "Bitcoin",
+    "symbol": "btc",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "exchange": "gdax",
     "command": "bitcoin",
     "nameOnCoinmarketcap": "bitcoin",
     "postOnChannel": true
   },
   {
     "name": "Ethereum",
+    "symbol": "eth",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "exchange": "gdax",
     "command": "ether",
     "nameOnCoinmarketcap": "ethereum",
     "postOnChannel": true
   },
   {
     "name": "Ripple",
+    "symbol": "xrp",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "exchange": "kraken",
     "command": "ripple",
     "nameOnCoinmarketcap": "ripple",
     "postOnChannel": true
   },
   {
     "name": "Litecoin",
+    "symbol": "ltc",
     "currencyName": "Euro",
     "currencySymbol": "€",
-    "exchange": "gdax",
     "command": "litecoin",
     "nameOnCoinmarketcap": "litecoin",
     "postOnChannel": true
   },
   {
     "name": "Dash",
+    "symbol": "dash",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "dash",
@@ -45,6 +46,7 @@
   },
   {
     "name": "Bitcoin Cash",
+    "symbol": "bch",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "bitcoincash",
@@ -53,6 +55,7 @@
   },
   {
     "name": "Cardano",
+    "symbol": "ada",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "cardano",
@@ -61,6 +64,7 @@
   },
   {
     "name": "Stellar",
+    "symbol": "xlm",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "stellar",
@@ -69,6 +73,7 @@
   },
   {
     "name": "NEM",
+    "symbol": "xem",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "nem",
@@ -77,6 +82,7 @@
   },
   {
     "name": "IOTA",
+    "symbol": "miota",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "iota",
@@ -85,6 +91,7 @@
   },
   {
     "name": "NEO",
+    "symbol": "neo",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "neo",
@@ -93,6 +100,7 @@
   },
   {
     "name": "TRON",
+    "symbol": "trx",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "tron",
@@ -101,6 +109,7 @@
   },
   {
     "name": "EOS",
+    "symbol": "eos",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "eos",
@@ -109,6 +118,7 @@
   },
   {
     "name": "Monero",
+    "symbol": "xmr",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "monero",
@@ -117,6 +127,7 @@
   },
   {
     "name": "ICON",
+    "symbol": "icx",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "icon",
@@ -125,6 +136,7 @@
   },
   {
     "name": "Bitcoin Gold",
+    "symbol": "btg",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "bitcoingold",
@@ -133,6 +145,7 @@
   },
   {
     "name": "Qtum",
+    "symbol": "qtum",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "qtum",
@@ -141,6 +154,7 @@
   },
   {
     "name": "RaiBlocks",
+    "symbol": "xrb",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "raiblocks",
@@ -149,6 +163,7 @@
   },
   {
     "name": "Ethereum Classic",
+    "symbol": "etc",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "ethereumclassic",
@@ -157,6 +172,7 @@
   },
   {
     "name": "Lisk",
+    "symbol": "lsk",
     "currencyName": "Euro",
     "currencySymbol": "€",
     "command": "lisk",
