@@ -5,6 +5,7 @@ const delay = require('timeout-as-promise');
 const { MongoClient, ObjectID } = require('mongodb');
 const Telegraf = require('telegraf');
 
+
 const momId = 353733726;
 
 (async () => {
@@ -26,17 +27,30 @@ const momId = 353733726;
     return price;
   };
 
+  const percentChange = (change) => {
+    if (change > 0) {
+      change = '+' + change.toFixed(2);
+    }
+    else {
+      change = change.toFixed(2);
+    }
+    return change;
+  };
+
   const coinmarketcapFetchTicker = async (currency) => {
     const getTicker = await axios.get(`https://api.coinmarketcap.com/v1/ticker/${currency}/?convert=EUR`);
     const lastValueEur = fixDecimalPrice(parseFloat(getTicker.data[0].price_eur));
     const lastValueUsd = fixDecimalPrice(parseFloat(getTicker.data[0].price_usd));
+    const changeOver1h = percentChange(parseFloat(getTicker.data[0].percent_change_1h));
+    const changeOver24h = percentChange(parseFloat(getTicker.data[0].percent_change_24h));
+    const changeOver7d = percentChange(parseFloat(getTicker.data[0].percent_change_7d));
 
     return {
       lastValueEur: lastValueEur,
       lastValueUsd: lastValueUsd,
-      changeOver1h: parseFloat(getTicker.data[0].percent_change_1h).toFixed(2),
-      changeOver24h: parseFloat(getTicker.data[0].percent_change_24h).toFixed(2),
-      changeOver7d: parseFloat(getTicker.data[0].percent_change_7d).toFixed(2)
+      changeOver1h: changeOver1h,
+      changeOver24h: changeOver24h,
+      changeOver7d: changeOver7d
     };
   };
 
@@ -58,8 +72,8 @@ const momId = 353733726;
     const messageToMom = `Hello mom, ${ctx.from.first_name} ${ctx.from.last_name} talked to me 🤖💋`;
     await bot.telegram.sendMessage(momId, messageToMom);
 
-    return ctx.reply(`Welcome ${ctx.from.first_name}!\n\nI'm Cryptobot, nice to meet you.\nUse /help to know me better.\n\nIf you have some suggestion, you can contact (and follow 👍) my mom Cynthia on twitter https://twitter.com/monsieur_riz\n\nEnjoy! 😁💰🤘  `);
-  });
+    return ctx.replyWithMarkdown(`Welcome ${ctx.from.first_name}!\n\nI'm Cryptobot, nice to meet you.\nUse /help to know me better.\n\nIf you have some suggestion, you can contact (and follow 👍) my mom *Cynthia* on *twitter* https://twitter.com/monsieur_riz\n\nEnjoy! 😁💰🤘  `);
+  }, { 'parse_mode': 'Markdown' });
 
   // Getting all currencies with CMC's API
   const resultApi = await axios.get('https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=0');
@@ -73,10 +87,10 @@ const momId = 353733726;
   bot.command('help', (ctx) => {
     let message = '/howMuch - Query the market\n';
     for (const ticker of tickers.slice(0, 10)) {
-      message = message + `/${ticker.symbol} - Value of ${ticker.name} in EUR/USD\n`;
+      message = message + `/${ticker.symbol} - Value of *${ticker.name}* in EUR/USD\n`;
     }
-    ctx.reply(message);
-  });
+    ctx.replyWithMarkdown(message);
+  }, { 'parse_mode': 'Markdown' });
 
   // How much command
   bot.command('howMuch', async (ctx) => {
@@ -85,31 +99,31 @@ const momId = 353733726;
       let message = '';
       for (const ticker of tickers.slice(0, 6)) {
         const result = await coinmarketcapFetchTicker(ticker.id);
-        message = message + `${ticker.name} (${ticker.symbol})\n${result.lastValueEur}€   -   $${result.lastValueUsd}\n\n`;
+        message = message + `${ticker.name} (${ticker.symbol})\n*${result.lastValueEur}€*   -   $${result.lastValueUsd}\n\n`;
       }
-      ctx.reply(message);
+      ctx.replyWithMarkdown(message);
     }
     catch (error) {
       ctx.reply('Sorry there is an error. Please try again in a few minutes.');
     }
-  });
+  }, { 'parse_mode': 'Markdown' });
 
   // Currency command
   for (const ticker of tickers) {
     bot.command([ ticker.symbol, ticker.symbol.toLowerCase(), ticker.id.replace(/-/g, '') ], async (ctx) => {
       try {
         const result = await coinmarketcapFetchTicker(ticker.id);
-        ctx.reply(`${ticker.name} (${ticker.symbol})
-${result.lastValueEur}€ - $${result.lastValueUsd}
+        ctx.replyWithMarkdown(`${ticker.name} (${ticker.symbol})
+*${result.lastValueEur}€* - $${result.lastValueUsd}
 
-  Change 1h:  ${result.changeOver1h.padStart(8)} %
-  Change 24h: ${result.changeOver24h.padStart(6)} %
-  Change 7d:  ${result.changeOver7d.padStart(7)} %`);
+   Change 1h:  ${result.changeOver1h.padStart(7)}%
+   Change 24h: *${result.changeOver24h.padStart(7)}%*
+   Change 7d:  ${result.changeOver7d.padStart(7)}%`);
       }
       catch(error) {
         ctx.reply('Sorry there is an error. Please try again in a few minutes.');
       }
-    });
+    }, { 'parse_mode': 'Markdown' });
   }
 
   // Message mom with logs over the last 24 hours
@@ -123,14 +137,14 @@ ${result.lastValueEur}€ - $${result.lastValueUsd}
       .sort({ date: 1 })
       .toArray();
 
-    let messageToMom = 'This is the logs over last 24 hours.\n\n';
+    let messageToMom = '*This is the logs over last 24 hours.*\n\n';
     for (const message of messages) {
       if (message.from.id !== momId) {
-        messageToMom = messageToMom + `${message.from.first_name || ''} ${message.from.last_name || ''} ${message.from.username || ''}\n (${message.chat.type}, ${message.chat.title}): ${message.text}\n`;
+        messageToMom = messageToMom + `_${message.from.first_name || ''}_ _${message.from.last_name || ''}_ _${message.from.username || ''}_\n (${message.chat.type}, ${message.chat.title}): ${message.text}\n`;
       }
     }
-    ctx.reply(messageToMom);
-  });
+    ctx.replyWithMarkdown(messageToMom);
+  }, { 'parse_mode': 'Markdown' });
 
   bot.startPolling();
   console.log('Bot is ready');
@@ -139,13 +153,13 @@ ${result.lastValueEur}€ - $${result.lastValueUsd}
   const messageToChannel = async () => {
     while (true) {
       try {
-        let message = 'I send you every hour the crypto market value 🤖💰\n\n';
+        let message = 'I send you every hour the top 5 of cryptocurrencies 🔝💰\n\n';
         for (const ticker of tickers.slice(0, 5)) {
           const result = await coinmarketcapFetchTicker(ticker.id);
-          message = message + `${ticker.name} is at ${result.lastValueEur}€\n`;
+          message = message + `*${ticker.name}*: ${result.lastValueEur}€\nChange (1h): _${result.changeOver1h}%_\n\n`;
         }
-        message = message + '\nYou can ask me for more currencies by clicking on this link @ButterInTheSpinachBot 🤖';
-        bot.telegram.sendMessage(channelId, message);
+        message = message + `\nYou can ask me for **more** than *${tickers.length} currencies* by clicking on this link @ButterInTheSpinachBot 🤖`;
+        bot.telegram.sendMessage(channelId, message, { 'parse_mode': 'Markdown' });
         break;
       }
       catch (error) {
