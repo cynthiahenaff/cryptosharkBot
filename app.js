@@ -50,28 +50,38 @@ const momId = 353733726;
   bot.start(async (ctx) => {
     await db.collection('users').insert(ctx.from);
 
+    // Message mom with the new user's informations
     const messageToMom = `Hello mom, ${ctx.from.first_name} ${ctx.from.last_name} talked to me 🤖💋`;
     await bot.telegram.sendMessage(momId, messageToMom);
 
     return ctx.reply(`Welcome ${ctx.from.first_name}!\n\nI'm Cryptobot, nice to meet you.\nUse /help to know me better.\n\nIf you have some suggestion, you can contact (and follow 👍) my mom Cynthia on twitter https://twitter.com/monsieur_riz\n\nEnjoy! 😁💰🤘  `);
   });
 
+  // Getting all currencies with CMC's API
+  const resultApi = await axios.get('https://api.coinmarketcap.com/v1/ticker/?convert=EUR&limit=0');
+  const tickers = resultApi.data;
 
+  // Sorting all currencies by market cap by descending order
+  tickers.sort((a, b) => { return parseFloat(b.market_cap_usd || 0) - parseFloat(a.market_cap_usd || 0); });
+  console.log(tickers.length);
+
+  // Help command (/howMuch + /symbol)
   bot.command('help', (ctx) => {
     let message = '/howMuch - Query the market\n';
-    for (const crypto of cryptos) {
-      message = message + `/${crypto.symbol} - Value of ${crypto.name} in ${crypto.currencyName}\n`;
+    for (const ticker of tickers.slice(0, 10)) {
+      message = message + `/${ticker.symbol} - Value of ${ticker.name} in Euro\n`;
     }
     ctx.reply(message);
   });
 
+  // How much command
   bot.command('howMuch', async (ctx) => {
     ctx.reply('I\'m searching...');
     try {
       let message = '';
-      for (const crypto of cryptos) {
-        const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
-        message = message + `${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}\n`;
+      for (const ticker of tickers.slice(0, 10)) {
+        const result = await coinmarketcapFetchTicker(ticker.id);
+        message = message + `${ticker.name} is at ${result.lastValue} €\n`;
       }
       ctx.reply(message);
     }
@@ -80,22 +90,24 @@ const momId = 353733726;
     }
   });
 
-  for (const crypto of cryptos) {
-    bot.command([crypto.command, crypto.symbol], async (ctx) => {
+  // Currency command
+  for (const ticker of tickers) {
+    bot.command(ticker.symbol, async (ctx) => {
       try {
-        const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
-        ctx.reply(`${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}
+        const result = await coinmarketcapFetchTicker(ticker.id);
+        ctx.reply(`${ticker.name} (${ticker.symbol}) is at ${result.lastValue} €
 
 Evolution over 1h : ${result.changeOver1h} %
 Evolution over 24h: ${result.changeOver24h} %
 Evolution over 7 days: ${result.changeOver7d} %`);
       }
-      catch (error) {
+      catch(error) {
         ctx.reply('Sorry there is an error. Please try again in a few minutes.');
       }
     });
   }
 
+  // Message mom with logs over the last 24 hours
   bot.command('messagesLogs', async (ctx) => {
     if (ctx.from.id !== momId) {
       return;
@@ -113,13 +125,10 @@ Evolution over 7 days: ${result.changeOver7d} %`);
     ctx.reply(messageToMom);
   });
 
-  // bot.on('new_chat_members', (ctx) => ctx.reply(`Hello ${ctx.from.first_name}`));
-  // bot.hears('hi', (ctx) => ctx.reply('Hey there!'))
-  // bot.hears(/buy/i, (ctx) => ctx.reply('Buy-buy!'))
-  // bot.on('sticker', (ctx) => ctx.reply('👍'))
-
   bot.startPolling();
+  console.log('Bot is ready');
 
+  // Message to channel
   const messageToChannel = async () => {
     while (true) {
       try {
@@ -141,7 +150,7 @@ Evolution over 7 days: ${result.changeOver7d} %`);
   };
   setInterval(messageToChannel, 60 * 60 * 1000);
 
-
+  // Advertise to channel
   const advertiseToChannel = async () => {
     const message = 'Don\'t forget, you can talk directly with me by clicking on this link @ButterInTheSpinachBot 🤖 and join my mom at https://twitter.com/monsieur_riz';
     bot.telegram.sendMessage(channelId, message);
