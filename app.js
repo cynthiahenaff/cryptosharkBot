@@ -4,7 +4,6 @@ const axios = require('axios');
 const delay = require('timeout-as-promise');
 const { MongoClient, ObjectID } = require('mongodb');
 const Telegraf = require('telegraf');
-const cryptos = require('./cryptos.json');
 
 const momId = 353733726;
 
@@ -133,11 +132,9 @@ Evolution over 7 days: ${result.changeOver7d} %`);
     while (true) {
       try {
         let message = 'I send you every hour the crypto market value 🤖💰\n\n';
-        for (const crypto of cryptos) {
-          if (crypto.postOnChannel === true) {
-            const result = await coinmarketcapFetchTicker(crypto.nameOnCoinmarketcap);
-            message = message + `${crypto.name} is at ${result.lastValue} ${crypto.currencySymbol}\n`;
-          }
+        for (const ticker of tickers.slice(0, 5)) {
+          const result = await coinmarketcapFetchTicker(ticker.id);
+          message = message + `${ticker.name} is at ${result.lastValue} €\n`;
         }
         message = message + '\nYou can ask me for more currencies by clicking on this link @ButterInTheSpinachBot 🤖';
         bot.telegram.sendMessage(channelId, message);
