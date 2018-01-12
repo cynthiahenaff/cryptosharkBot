@@ -13,25 +13,30 @@ const momId = 353733726;
   console.log('Connection to the database');
   const db = await MongoClient.connect(process.env.MONGODB_URL);
 
-  const coinmarketcapFetchTicker = async (currency) => {
-    const getTicker = await axios.get(`https://api.coinmarketcap.com/v1/ticker/${currency}/?convert=EUR`);
-
-    let lastValue = parseFloat(getTicker.data[0].price_eur);
-    if (lastValue < 1) {
-      lastValue = lastValue.toFixed(6);
+  const fixDecimalPrice = (price) => {
+    if (price < 1) {
+      price = price.toFixed(6);
     }
-    else if (lastValue < 10) {
-      lastValue = lastValue.toFixed(4);
+    else if (price < 10) {
+      price = price.toFixed(4);
     }
     else {
-      lastValue = lastValue.toFixed(2);
+      price = price.toFixed(2);
     }
+    return price;
+  };
+
+  const coinmarketcapFetchTicker = async (currency) => {
+    const getTicker = await axios.get(`https://api.coinmarketcap.com/v1/ticker/${currency}/?convert=EUR`);
+    const lastValueEur = fixDecimalPrice(parseFloat(getTicker.data[0].price_eur));
+    const lastValueUsd = fixDecimalPrice(parseFloat(getTicker.data[0].price_usd));
 
     return {
-      lastValue: lastValue,
-      changeOver1h: getTicker.data[0].percent_change_1h,
-      changeOver24h: getTicker.data[0].percent_change_24h,
-      changeOver7d: getTicker.data[0].percent_change_7d
+      lastValueEur: lastValueEur,
+      lastValueUsd: lastValueUsd,
+      changeOver1h: parseFloat(getTicker.data[0].percent_change_1h).toFixed(2),
+      changeOver24h: parseFloat(getTicker.data[0].percent_change_24h).toFixed(2),
+      changeOver7d: parseFloat(getTicker.data[0].percent_change_7d).toFixed(2)
     };
   };
 
@@ -62,13 +67,13 @@ const momId = 353733726;
 
   // Sorting all currencies by market cap by descending order
   tickers.sort((a, b) => { return parseFloat(b.market_cap_usd || 0) - parseFloat(a.market_cap_usd || 0); });
-  console.log(tickers.length);
+  console.log('Cryptocurrencies: ' + tickers.length);
 
   // Help command (/howMuch + /symbol)
   bot.command('help', (ctx) => {
     let message = '/howMuch - Query the market\n';
     for (const ticker of tickers.slice(0, 10)) {
-      message = message + `/${ticker.symbol} - Value of ${ticker.name} in Euro\n`;
+      message = message + `/${ticker.symbol} - Value of ${ticker.name} in EUR/USD\n`;
     }
     ctx.reply(message);
   });
@@ -78,9 +83,9 @@ const momId = 353733726;
     ctx.reply('I\'m searching...');
     try {
       let message = '';
-      for (const ticker of tickers.slice(0, 10)) {
+      for (const ticker of tickers.slice(0, 6)) {
         const result = await coinmarketcapFetchTicker(ticker.id);
-        message = message + `${ticker.name} is at ${result.lastValue} €\n`;
+        message = message + `${ticker.name} (${ticker.symbol})\n${result.lastValueEur}€   -   $${result.lastValueUsd}\n\n`;
       }
       ctx.reply(message);
     }
@@ -94,11 +99,12 @@ const momId = 353733726;
     bot.command([ ticker.symbol, ticker.symbol.toLowerCase(), ticker.id.replace(/-/g, '') ], async (ctx) => {
       try {
         const result = await coinmarketcapFetchTicker(ticker.id);
-        ctx.reply(`${ticker.name} (${ticker.symbol}) is at ${result.lastValue} €
+        ctx.reply(`${ticker.name} (${ticker.symbol})
+${result.lastValueEur}€ - $${result.lastValueUsd}
 
-Evolution over 1h : ${result.changeOver1h} %
-Evolution over 24h: ${result.changeOver24h} %
-Evolution over 7 days: ${result.changeOver7d} %`);
+  Change 1h:  ${result.changeOver1h.padStart(8)} %
+  Change 24h: ${result.changeOver24h.padStart(6)} %
+  Change 7d:  ${result.changeOver7d.padStart(7)} %`);
       }
       catch(error) {
         ctx.reply('Sorry there is an error. Please try again in a few minutes.');
@@ -119,7 +125,9 @@ Evolution over 7 days: ${result.changeOver7d} %`);
 
     let messageToMom = 'This is the logs over last 24 hours.\n\n';
     for (const message of messages) {
-      messageToMom = messageToMom + `${message.from.first_name} ${message.from.last_name} (${message.chat.type}): ${message.text}\n`;
+      if (message.from.id !== momId) {
+        messageToMom = messageToMom + `${message.from.first_name || ''} ${message.from.last_name || ''} ${message.from.username || ''}\n (${message.chat.type}, ${message.chat.title}): ${message.text}\n`;
+      }
     }
     ctx.reply(messageToMom);
   });
@@ -134,7 +142,7 @@ Evolution over 7 days: ${result.changeOver7d} %`);
         let message = 'I send you every hour the crypto market value 🤖💰\n\n';
         for (const ticker of tickers.slice(0, 5)) {
           const result = await coinmarketcapFetchTicker(ticker.id);
-          message = message + `${ticker.name} is at ${result.lastValue} €\n`;
+          message = message + `${ticker.name} is at ${result.lastValueEur}€\n`;
         }
         message = message + '\nYou can ask me for more currencies by clicking on this link @ButterInTheSpinachBot 🤖';
         bot.telegram.sendMessage(channelId, message);
