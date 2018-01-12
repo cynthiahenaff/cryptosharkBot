@@ -92,7 +92,7 @@ const momId = 353733726;
 
   // Currency command
   for (const ticker of tickers) {
-    bot.command(ticker.symbol, async (ctx) => {
+    bot.command([ ticker.symbol, ticker.symbol.toLowerCase(), ticker.id.replace(/-/g, '') ], async (ctx) => {
       try {
         const result = await coinmarketcapFetchTicker(ticker.id);
         ctx.reply(`${ticker.name} (${ticker.symbol}) is at ${result.lastValue} €
