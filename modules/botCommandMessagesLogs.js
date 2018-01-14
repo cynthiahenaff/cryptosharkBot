@@ -1,6 +1,7 @@
 module.exports = (bot, momId, db) => {
   bot.command('messagesLogs', async (ctx) => {
     if (ctx.from.id !== momId) {
+      console.warn('Access forbidden to messagesLogs from user ' + JSON.stringify(ctx.from));
       return;
     }
     const dateLess24h = (Date.now() / 1000) - (24 * 60 * 60);
