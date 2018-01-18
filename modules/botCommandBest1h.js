@@ -11,11 +11,16 @@ module.exports = (bot) => {
       .slice(0, 5);
 
     try {
-      let message = '';
-      for (const bestCurrencie of bestCurrencies) {
-        const result = await fetchTicker(bestCurrencie.id);
-        message += `/${bestCurrencie.symbol} - ${result.lastValueEur}€ (1h:  *${result.changeOver1h}%*)\n`;
-      }
+      const message = (await Promise.all(
+        bestCurrencies.map(
+          (bestCurrencie) => {
+            const result = await fetchTicker(bestCurrencie.id);
+
+            return `/${bestCurrencie.symbol} - ${result.lastValueEur}€ (1h:  *${result.changeOver1h}%*)\n`;
+          }
+        )
+      )).join('');
+
       ctx.replyWithMarkdown(message);
     }
     catch (error) {
