@@ -13,6 +13,9 @@ const botCommandCurrency = require('./modules/botCommandCurrency');
 const botCommandBest1h = require('./modules/botCommandBest1h');
 const botCommandBest24h = require('./modules/botCommandBest24h');
 const botCommandBest7d = require('./modules/botCommandBest7d');
+const botCommandWorst1h = require('./modules/botCommandWorst1h');
+const botCommandWorst24h = require('./modules/botCommandWorst24h');
+const botCommandWorst7d = require('./modules/botCommandWorst7d');
 const botCommandMessagesLogs = require('./modules/botCommandMessagesLogs');
 
 const momId = parseInt(process.env.MOM_ID);
@@ -36,6 +39,9 @@ const momId = parseInt(process.env.MOM_ID);
   botCommandBest1h(bot);
   botCommandBest24h(bot);
   botCommandBest7d(bot);
+  botCommandWorst1h(bot);
+  botCommandWorst24h(bot);
+  botCommandWorst7d(bot);
   botCommandMessagesLogs(bot, momId, db);
 
   bot.startPolling(30, 100, null, () => {console.log('startPolling stopped');});
