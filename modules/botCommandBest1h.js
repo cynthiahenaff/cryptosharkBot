@@ -13,13 +13,12 @@ module.exports = (bot) => {
     try {
       const message = (await Promise.all(
         bestCurrencies.map(
-          (bestCurrencie) => {
+          async (bestCurrencie) => {
             const result = await fetchTicker(bestCurrencie.id);
-
-            return `/${bestCurrencie.symbol} - ${result.lastValueEur}€ (1h:  *${result.changeOver1h}%*)\n`;
+            return `/${bestCurrencie.symbol} - ${result.lastValueEur}€ (1h:  *${result.changeOver1h}%*)`;
           }
         )
-      )).join('');
+      )).join('\n');
 
       ctx.replyWithMarkdown(message);
     }
