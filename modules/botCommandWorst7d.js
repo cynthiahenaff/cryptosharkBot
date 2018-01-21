@@ -6,16 +6,19 @@ module.exports = (bot) => {
     ctx.reply('I\'m searching...');
     const tickers = await fetchTickers();
     let worstCurrencies = tickers
-      .slice(0, 50)
+      .slice(0, 100)
       .sort((a, b) => { return parseFloat(a.percent_change_7d) - parseFloat(b.percent_change_7d); })
       .slice(0, 5);
 
     try {
-      let message = '';
-      for (const worstCurrencie of worstCurrencies) {
-        const result = await fetchTicker(worstCurrencie.id);
-        message += `/${worstCurrencie.symbol} - ${result.lastValueEur}€ (1h:  *${result.changeOver7d}%*)\n`;
-      }
+      const message = (await Promise.all(
+        worstCurrencies.map(
+          async (worstCurrencie) => {
+            const result = await fetchTicker(worstCurrencie.id);
+            return `/${worstCurrencie.symbol} - ${result.lastValueEur}€ (7d:  *${result.changeOver7d}%*)`;
+          }
+        )
+      )).join('\n');
       ctx.replyWithMarkdown(message);
     }
     catch (error) {

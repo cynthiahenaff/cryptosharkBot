@@ -6,7 +6,7 @@ module.exports = (bot) => {
     ctx.reply('I\'m searching...');
     const tickers = await fetchTickers();
     let bestCurrencies = tickers
-      .slice(0, 50)
+      .slice(0, 100)
       .sort((a, b) => { return parseFloat(b.percent_change_1h) - parseFloat(a.percent_change_1h); })
       .slice(0, 5);
 
