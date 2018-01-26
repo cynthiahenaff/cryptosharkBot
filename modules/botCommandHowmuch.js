@@ -9,8 +9,9 @@ module.exports = (bot) => {
       let message = '';
       for (const ticker of tickers.slice(0, 6)) {
         const result = await fetchTicker(ticker.id);
-        message = message + `${ticker.name} (${ticker.symbol})\n*${result.lastValueEur}€*   -   $${result.lastValueUsd}\n\n`;
+        message = message + `${ticker.name} (${ticker.symbol})\n*${result.lastValueEur}€*   -   $${result.lastValueUsd}\n`;
       }
+      message += '\n/help to see the others commands!';
       ctx.replyWithMarkdown(message);
     }
     catch (error) {

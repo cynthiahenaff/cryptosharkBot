@@ -11,15 +11,15 @@ module.exports = (bot) => {
       .slice(0, 5);
 
     try {
-      const message = (await Promise.all(
+      let message = (await Promise.all(
         bestCurrencies.map(
           async (bestCurrencie) => {
             const result = await fetchTicker(bestCurrencie.id);
-            return `/${bestCurrencie.symbol} - ${result.lastValueEur}€ (1h:  *${result.changeOver1h}%*)`;
+            return `${bestCurrencie.symbol} - ${result.lastValueEur}€ (1h:  *${result.changeOver1h}*%)`;
           }
         )
       )).join('\n');
-
+      message += '\n\n/help to see the others commands!';
       ctx.replyWithMarkdown(message);
     }
     catch (error) {

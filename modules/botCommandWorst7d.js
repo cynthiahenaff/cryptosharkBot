@@ -11,7 +11,7 @@ module.exports = (bot) => {
       .slice(0, 5);
 
     try {
-      const message = (await Promise.all(
+      let message = (await Promise.all(
         worstCurrencies.map(
           async (worstCurrencie) => {
             const result = await fetchTicker(worstCurrencie.id);
@@ -19,6 +19,7 @@ module.exports = (bot) => {
           }
         )
       )).join('\n');
+      message += '\n\n/help to see the others commands!';
       ctx.replyWithMarkdown(message);
     }
     catch (error) {
