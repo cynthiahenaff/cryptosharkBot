@@ -4,10 +4,10 @@ const delay = require('timeout-as-promise');
 
 module.exports = (bot, channelId) => {
   const messageToChannel = async () => {
-    // const minutes = new Date().getMinutes();
-    // if (minutes !== 0) {
-    //   return;
-    // }
+    const minutes = new Date().getMinutes();
+    if (minutes !== 0) {
+      return;
+    }
     while (true) {
       try {
         const tickers = await fetchTickers();
@@ -41,5 +41,5 @@ module.exports = (bot, channelId) => {
     }
   };
 
-  setInterval(messageToChannel, 1 * 1000);
+  setInterval(messageToChannel, 60 * 1000);
 };
