@@ -1,5 +1,6 @@
 const fetchTickers = require('./fetchTickers');
-const fetchTicker = require('./fetchTicker');
+// const fetchTicker = require('./fetchTicker');
+const fetchTickerChannel = require('./fetchTickerChannel');
 const delay = require('timeout-as-promise');
 
 module.exports = (bot, channelId) => {
@@ -17,18 +18,21 @@ module.exports = (bot, channelId) => {
           .sort((a, b) => { return parseFloat(b.percent_change_1h) - parseFloat(a.percent_change_1h); })
           .slice(0, 5);
 
-        let message = '_Top 5 of cryptocurrencies_ 🔝\n\n';
+        let message = '*Top 5 of cryptocurrencies* 🔝\n\n' +
+                      '\`    |  USD |  EUR |  1H  \`\n';
 
         for (const ticker of tickers.slice(0, 5)) {
-          const result = await fetchTicker(ticker.id);
-          message = message + `*${ticker.symbol}* ${result.lastValueEur}€ - $${result.lastValueUsd} (*${result.changeOver1h}*%)\n`;
+          const result = await fetchTickerChannel(ticker.id);
+          message += `\`${ticker.symbol.padEnd(4)}| ${result.lastValueUsd.padEnd(5)}| ${result.lastValueEur.padEnd(5)}|${result.changeOver1h.padStart(5)}%\`\n`;
         }
 
-        message = message + '\n------------------------------\n_Best performing currencies_ 🏅\n\n';
+        message = message + '\n------------------------------\n' +
+                            '*Best performing currencies* 🏅\n\n' +
+                            '\`    |  USD |  EUR |  1H  \`\n';
 
         for (const bestCurrencie of bestCurrencies) {
-          const result = await fetchTicker(bestCurrencie.id);
-          message += `*${bestCurrencie.symbol}* - ${result.lastValueEur}€ (1h:  ${result.changeOver1h}%)\n`;
+          const result = await fetchTickerChannel(bestCurrencie.id);
+          message += `\`${bestCurrencie.symbol.padEnd(4)}| ${result.lastValueUsd.padEnd(5)}| ${result.lastValueEur.padEnd(5)}|${result.changeOver1h.padStart(5)}%\`\n`;
         }
 
         message += `\nYou can ask me for *more* than *${tickers.length} currencies* by clicking on this link @ButterInTheSpinachBot 🤖`;

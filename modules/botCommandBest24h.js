@@ -15,11 +15,11 @@ module.exports = (bot) => {
         bestCurrencies.map(
           async (bestCurrencie) => {
             const result = await fetchTicker(bestCurrencie.id);
-            return `/${bestCurrencie.symbol} - ${result.lastValueEur}€ (24h:  *${result.changeOver24h}%*)`;
+            return `/${bestCurrencie.symbol} - ${bestCurrencie.name}\n\t*${result.changeOver24h}*%\n`;
           }
         )
       )).join('\n');
-      message += '\n\n/help to see the others commands!';
+      message += '\n/help to see the others commands!';
       ctx.replyWithMarkdown(message);
     }
     catch (error) {
