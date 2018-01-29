@@ -19,20 +19,20 @@ module.exports = (bot, channelId) => {
           .slice(0, 5);
 
         let message = '*Top 5 of cryptocurrencies* 🔝\n\n' +
-                      '\`    |  USD |  EUR |  1H  \`\n';
+                      '\`     |  USD |  EUR |  1H  \`\n';
 
         for (const ticker of tickers.slice(0, 5)) {
           const result = await fetchTickerChannel(ticker.id);
-          message += `\`${ticker.symbol.padEnd(4)}| ${result.lastValueUsd.padEnd(5)}| ${result.lastValueEur.padEnd(5)}|${result.changeOver1h.padStart(5)}%\`\n`;
+          message += `\`${ticker.symbol.padEnd(5)}| ${result.lastValueUsd.padEnd(5)}| ${result.lastValueEur.padEnd(5)}|${result.changeOver1h.padStart(5)}%\`\n`;
         }
 
         message = message + '\n------------------------------\n' +
                             '*Best performing currencies* 🏅\n\n' +
-                            '\`    |  USD |  EUR |  1H  \`\n';
+                            '\`     |  USD |  EUR |  1H  \`\n';
 
         for (const bestCurrencie of bestCurrencies) {
           const result = await fetchTickerChannel(bestCurrencie.id);
-          message += `\`${bestCurrencie.symbol.padEnd(4)}| ${result.lastValueUsd.padEnd(5)}| ${result.lastValueEur.padEnd(5)}|${result.changeOver1h.padStart(5)}%\`\n`;
+          message += `\`${bestCurrencie.symbol.padEnd(5)}| ${result.lastValueUsd.padEnd(5)}| ${result.lastValueEur.padEnd(5)}|${result.changeOver1h.padStart(5)}%\`\n`;
         }
 
         message += `\nYou can ask me for *more* than *${tickers.length} currencies* by clicking on this link @ButterInTheSpinachBot 🤖`;
