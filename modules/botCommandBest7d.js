@@ -18,7 +18,7 @@ module.exports = (bot) => {
     const bestsForTickers /* List[Ticker] => Promise[List[(Struct, Ticker)]] */ =
         bestCurrencies => Promise.all(bestCurrencies.map(bestForTicker))
 
-    const bestAsString /*: (Struct, Ticker) => List[String] */ =
+    const bestAsString /*: (Struct, Ticker) => String */ =
         (myStruct, best) => `/${best.symbol} - ${best.name}\n\t*${myStruct.changeOver7d}*%\n`
 
     fetchTickers() /*: Promise[List[Ticker]] */
