@@ -8,18 +8,18 @@ module.exports = (bot) => {
     const takeFiveBestTickers /* List[Ticker] => List[Ticker] */ =
       myTickers =>
         myTickers
-            .slice(0, 100)
-            .sort((a, b) => parseFloat(b.percent_change_7d) - parseFloat(a.percent_change_7d))
-            .slice(0, 5)
+          .slice(0, 100)
+          .sort((a, b) => parseFloat(b.percent_change_7d) - parseFloat(a.percent_change_7d))
+          .slice(0, 5)
 
     const bestForTicker /* Ticker => Promise[(Struct, Ticker)] */ =
-        bestCurrencie => fetchTicker(bestCurrencie.id).then(res => { res, bestCurrencie })
+      bestCurrencie => fetchTicker(bestCurrencie.id).then(res => { res, bestCurrencie })
 
     const bestsForTickers /* List[Ticker] => Promise[List[(Struct, Ticker)]] */ =
-        bestCurrencies => Promise.all(bestCurrencies.map(bestForTicker))
+      bestCurrencies => Promise.all(bestCurrencies.map(bestForTicker))
 
     const bestAsString /*: (Struct, Ticker) => String */ =
-        (myStruct, best) => `/${best.symbol} - ${best.name}\n\t*${myStruct.changeOver7d}*%\n`
+      (myStruct, best) => `/${best.symbol} - ${best.name}\n\t*${myStruct.changeOver7d}*%\n`
 
     fetchTickers() /*: Promise[List[Ticker]] */
       .then(takeFiveBestTickers)
