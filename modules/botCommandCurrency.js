@@ -6,7 +6,7 @@ module.exports = async (bot) => {
   for (const ticker of tickers) {
     bot.command([ ticker.symbol, ticker.symbol.toLowerCase(), ticker.id.replace(/-/g, '') ], async (ctx) => {
       try {
-        const result = await fetchTicker(ticker.id);
+        const result = await fetchTicker(ticker.id, true);
         ctx.replyWithMarkdown(
           `/${ticker.symbol} - *${ticker.name}*\n\n`+
           `\t\`USD:\t${result.lastValueUsd.padStart(8)}\`\n` +

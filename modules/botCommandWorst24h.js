@@ -14,7 +14,7 @@ module.exports = (bot) => {
       let message = (await Promise.all(
         worstCurrencies.map(
           async (worstCurrencie) => {
-            const result = await fetchTicker(worstCurrencie.id);
+            const result = await fetchTicker(worstCurrencie.id, true);
             return `/${worstCurrencie.symbol} - ${worstCurrencie.name}\n\t*${result.changeOver24h}*%\n`;
           }
         )

@@ -8,7 +8,7 @@ module.exports = (bot) => {
       const tickers = await fetchTickers();
       let message = '';
       for (const ticker of tickers.slice(0, 6)) {
-        const result = await fetchTicker(ticker.id);
+        const result = await fetchTicker(ticker.id, true);
         message += `/${ticker.symbol} - *${ticker.name}*\n` +
           `\t\`USD: ${result.lastValueUsd}\`\n` +
           `\t\`EUR: ${result.lastValueEur}\`\n` +

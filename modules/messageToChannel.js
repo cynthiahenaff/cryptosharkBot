@@ -1,6 +1,5 @@
 const fetchTickers = require('./fetchTickers');
-// const fetchTicker = require('./fetchTicker');
-const fetchTickerChannel = require('./fetchTickerChannel');
+const fetchTicker = require('./fetchTicker');
 const delay = require('timeout-as-promise');
 
 module.exports = (bot, channelId) => {
@@ -22,7 +21,7 @@ module.exports = (bot, channelId) => {
                       '\`     |  USD |  EUR |  1H  \`\n';
 
         for (const ticker of tickers.slice(0, 5)) {
-          const result = await fetchTickerChannel(ticker.id);
+          const result = await fetchTicker(ticker.id, false);
           message += `\`${ticker.symbol.padEnd(5)}| ${result.lastValueUsd.padEnd(5)}| ${result.lastValueEur.padEnd(5)}|${result.changeOver1h.padStart(5)}%\`\n`;
         }
 
@@ -31,7 +30,7 @@ module.exports = (bot, channelId) => {
                             '\`     |  USD |  EUR |  1H  \`\n';
 
         for (const bestCurrencie of bestCurrencies) {
-          const result = await fetchTickerChannel(bestCurrencie.id);
+          const result = await fetchTicker(bestCurrencie.id, false);
           message += `\`${bestCurrencie.symbol.padEnd(5)}| ${result.lastValueUsd.padEnd(5)}| ${result.lastValueEur.padEnd(5)}|${result.changeOver1h.padStart(5)}%\`\n`;
         }
 
