@@ -16,9 +16,8 @@ module.exports = (bot) => {
       '\n\n*Less performing currencies*' +
       '\n/worst1h - 5 less performing currencies in the last hour' +
       '\n/worst24h - 5 less performing currencies in the last 24h' +
-      '\n/worst7d - 5 less performing currencies in the last week';
-      // '\n\n*More information*' +
-      // '\n/source';
+      '\n/worst7d - 5 less performing currencies in the last week' +
+      '\n\n/about - More informations about dev';
     ctx.replyWithMarkdown(message);
   });
 };

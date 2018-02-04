@@ -17,6 +17,7 @@ const botCommandWorst1h = require('./modules/botCommandWorst1h');
 const botCommandWorst24h = require('./modules/botCommandWorst24h');
 const botCommandWorst7d = require('./modules/botCommandWorst7d');
 const botCommandMessagesLogs = require('./modules/botCommandMessagesLogs');
+const botCommandAbout = require ('./modules/botCommandAbout');
 
 const momId = parseInt(process.env.MOM_ID);
 
@@ -49,4 +50,6 @@ const momId = parseInt(process.env.MOM_ID);
 
   messageToChannel(bot, channelId);
   advertiseToChannel(bot, channelId);
+
+  botCommandAbout(bot);
 })();
