@@ -17,7 +17,8 @@ const botCommandWorst1h = require('./modules/botCommandWorst1h');
 const botCommandWorst24h = require('./modules/botCommandWorst24h');
 const botCommandWorst7d = require('./modules/botCommandWorst7d');
 const botCommandMessagesLogs = require('./modules/botCommandMessagesLogs');
-const botCommandAbout = require ('./modules/botCommandAbout');
+const botCommandAbout = require('./modules/botCommandAbout');
+// const botCommandUnknown = require('./modules/botCommandUnknown');
 
 const momId = parseInt(process.env.MOM_ID);
 
@@ -28,7 +29,14 @@ const momId = parseInt(process.env.MOM_ID);
   const db = await MongoClient.connect(process.env.MONGODB_URL);
 
   const channelId = process.env.CHANNEL_ID;
-  const bot = new Telegraf(process.env.TELEGRAM_TOKEN, { username: process.env.TELEGRAM_USERNAME });
+  const bot = new Telegraf(process.env.TELEGRAM_TOKEN,
+    {
+      username: process.env.TELEGRAM_USERNAME,
+      updates: {
+        get_interval: 1000
+      }
+    }
+  );
 
   logMessages(bot, db);
 
@@ -44,6 +52,8 @@ const momId = parseInt(process.env.MOM_ID);
   botCommandWorst24h(bot);
   botCommandWorst7d(bot);
   botCommandMessagesLogs(bot, momId, db);
+  botCommandAbout(bot);
+  // botCommandUnknown(bot);
 
   bot.startPolling(30, 100, null, () => {console.log('startPolling stopped');});
   console.log('Bot is ready');
@@ -51,5 +61,4 @@ const momId = parseInt(process.env.MOM_ID);
   messageToChannel(bot, channelId);
   advertiseToChannel(bot, channelId);
 
-  botCommandAbout(bot);
 })();

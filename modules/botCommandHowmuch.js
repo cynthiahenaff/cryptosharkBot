@@ -1,5 +1,5 @@
 const fetchTickers = require('./fetchTickers');
-const fetchTicker = require('./fetchTicker');
+const parseTicker = require('./parseTicker');
 
 module.exports = (bot) => {
   bot.command(['howMuch', 'howmuch'], async (ctx) => {
@@ -8,13 +8,13 @@ module.exports = (bot) => {
       const tickers = await fetchTickers();
       let message = '';
       for (const ticker of tickers.slice(0, 6)) {
-        const result = await fetchTicker(ticker.id, true);
+        const result = await parseTicker(ticker, true);
         message += `/${ticker.symbol} - *${ticker.name}*\n` +
           `\t\`USD: ${result.lastValueUsd}\`\n` +
           `\t\`EUR: ${result.lastValueEur}\`\n` +
           '\n';
       }
-      message += '\n/help to see the others commands!';
+      message += '/help to see the others commands!';
       ctx.replyWithMarkdown(message);
     }
     catch (error) {

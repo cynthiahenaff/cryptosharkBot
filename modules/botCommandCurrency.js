@@ -1,17 +1,20 @@
 const fetchTickers = require('./fetchTickers');
-const fetchTicker = require('./fetchTicker');
+const parseTicker = require('./parseTicker');
 
 module.exports = async (bot) => {
   const tickers = await fetchTickers();
   for (const ticker of tickers) {
     bot.command([ ticker.symbol, ticker.symbol.toLowerCase(), ticker.id.replace(/-/g, '') ], async (ctx) => {
       try {
-        const result = await fetchTicker(ticker.id, true);
+        const result = await parseTicker(ticker, true);
         ctx.replyWithMarkdown(
-          `/${ticker.symbol} - *${ticker.name}*\n\n`+
+          `/${ticker.symbol} - *${ticker.name}*\n`+
+          '\n' +
+          'Value\n' +
           `\t\`USD:\t${result.lastValueUsd.padStart(8)}\`\n` +
           `\t\`EUR:\t${result.lastValueEur.padStart(8)}\`\n` +
           '\n' +
+          'Change\n' +
           `\t\`1h:\t ${result.changeOver1h.padStart(7)}%\`\n` +
           `\t\`24h:\t${result.changeOver24h.padStart(7)}%\`\n` +
           `\t\`7d:\t ${result.changeOver7d.padStart(7)}%\`\n` +

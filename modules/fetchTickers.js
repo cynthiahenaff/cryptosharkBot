@@ -26,7 +26,6 @@ module.exports = async () => {
   //   "market_cap_eur": "1673875280.0"
   // },
 
-
   tickers = tickers.map((ticker) => {
     return {
       ...ticker,
