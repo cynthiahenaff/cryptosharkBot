@@ -18,7 +18,6 @@ const botCommandWorst24h = require('./modules/botCommandWorst24h');
 const botCommandWorst7d = require('./modules/botCommandWorst7d');
 const botCommandMessagesLogs = require('./modules/botCommandMessagesLogs');
 const botCommandAbout = require('./modules/botCommandAbout');
-// const botCommandUnknown = require('./modules/botCommandUnknown');
 
 const momId = parseInt(process.env.MOM_ID);
 
@@ -53,7 +52,6 @@ const momId = parseInt(process.env.MOM_ID);
   botCommandWorst7d(bot);
   botCommandMessagesLogs(bot, momId, db);
   botCommandAbout(bot);
-  // botCommandUnknown(bot);
 
   bot.startPolling(30, 100, null, () => {console.log('startPolling stopped');});
   console.log('Bot is ready');

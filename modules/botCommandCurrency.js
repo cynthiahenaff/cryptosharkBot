@@ -1,12 +1,14 @@
 const fetchTickers = require('./fetchTickers');
 const parseTicker = require('./parseTicker');
+const fetchTicker = require('./fetchTicker');
 
 module.exports = async (bot) => {
   const tickers = await fetchTickers();
   for (const ticker of tickers) {
     bot.command([ ticker.symbol, ticker.symbol.toLowerCase(), ticker.id.replace(/-/g, '') ], async (ctx) => {
       try {
-        const result = await parseTicker(ticker, true);
+        const tickerUpdated = await fetchTicker(ticker.id);
+        const result = await parseTicker(tickerUpdated, true);
         ctx.replyWithMarkdown(
           `/${ticker.symbol} - *${ticker.name}*\n`+
           '\n' +
