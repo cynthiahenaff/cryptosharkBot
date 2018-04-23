@@ -33,7 +33,8 @@ module.exports = async () => {
       percent_change_24h: ticker.percent_change_24h || 0,
       percent_change_7d: ticker.percent_change_7d || 0,
       market_cap_usd: ticker.market_cap_usd || 0,
-      market_cap_eur: ticker.market_cap_eur || 0
+      market_cap_eur: ticker.market_cap_eur || 0,
+      price_btc: ticker.price_btc || 0
     };
   });
 

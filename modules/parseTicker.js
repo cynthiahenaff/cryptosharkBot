@@ -43,6 +43,7 @@ module.exports = (ticker, precise) => {
   const changeOver7d = percentChange(parseFloat(ticker.percent_change_7d));
   const marketcapEur = parseInt(ticker.market_cap_eur).toLocaleString('us-US');
   const marketcapUsd = parseInt(ticker.market_cap_usd).toLocaleString('us-US');
+  const lastValueBtc = ticker.price_btc;
 
   return {
     lastValueEur: lastValueEur,
@@ -52,5 +53,7 @@ module.exports = (ticker, precise) => {
     changeOver7d: changeOver7d,
     marketcapEur: marketcapEur,
     marketcapUsd: marketcapUsd,
+    lastValueBtc: lastValueBtc,
+    console
   };
 };

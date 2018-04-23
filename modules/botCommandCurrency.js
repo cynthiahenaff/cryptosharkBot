@@ -15,6 +15,7 @@ module.exports = async (bot) => {
           'Value\n' +
           `\t\`USD:\t${result.lastValueUsd.padStart(8)}\`\n` +
           `\t\`EUR:\t${result.lastValueEur.padStart(8)}\`\n` +
+          `\t\`BTC:\t${result.lastValueBtc.padStart(8)}\`\n` +
           '\n' +
           'Change\n' +
           `\t\`1h:\t ${result.changeOver1h.padStart(7)}%\`\n` +
