@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import { getAllCryptocurrencies } from 'api/coinMarketCap';
 import { parseTicker } from './parseTicker';
 
-module.exports = bot => {
+module.exports = (bot, webhook) => {
   bot.command('best7d', async ctx => {
     ctx.reply('I’m searching…');
 
@@ -26,7 +26,11 @@ module.exports = bot => {
 
       message += '/help to see the others commands!';
       ctx.replyWithMarkdown(message);
-    } catch (error) {
+    } catch (e) {
+      console.error(get(e, 'response.data') || e);
+      await webhook.send({
+        text: get(e, 'response.data') || e,
+      });
       ctx.reply('Sorry there is an error. Please try again in a few minutes.');
     }
   });

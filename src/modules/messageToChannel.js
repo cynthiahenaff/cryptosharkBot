@@ -4,7 +4,7 @@ import { parseTicker } from './parseTicker';
 import delay from 'timeout-as-promise';
 import fetchTicker from './fetchTicker';
 
-module.exports = (bot, channelId) => {
+module.exports = (bot, channelId, webhook) => {
   const messageToChannel = async () => {
     const minutes = new Date().getMinutes();
     if (minutes !== 0) {
@@ -47,7 +47,7 @@ module.exports = (bot, channelId) => {
 
         for (const t of bestTickers) {
           const tValue = await parseTicker(t, false);
-          message += `\`${t.symbol.padEnd(6)}|${tValue.changeOver1h.padStart(
+          message += `\`${t.symbol.padEnd(6)}| ${tValue.changeOver1h.padStart(
             7,
           )}%\`\n`;
         }
@@ -59,6 +59,9 @@ module.exports = (bot, channelId) => {
         });
         break;
       } catch (error) {
+        await webhook.send({
+          text: error,
+        });
         await delay(10 * 1000);
       }
     }
