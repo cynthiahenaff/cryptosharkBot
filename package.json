@@ -4,16 +4,27 @@
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
     "axios": "^0.17.1",
+    "babel-plugin-module-resolver": "^3.2.0",
     "ccxt": "^1.10.587",
     "dotenv": "^4.0.0",
     "eslint": "^4.12.1",
+    "humps": "^2.0.1",
     "kraken-api": "^1.0.0",
+    "lodash": "^4.17.11",
     "mongodb": "^2.2.33",
+    "nodemon": "^1.19.1",
     "telegraf": "^3.17.0",
     "timeout-as-promise": "^1.0.0"
   },
   "scripts": {
-    "start": "node app.js"
+    "dev": "NODE_ENV=development ./node_modules/.bin/nodemon -I -L -P 2000 -w src/ src/appDev.js",
+    "start": "node build/app.js",
+    "build": "rm -rf build && mkdir -p build && node_modules/.bin/babel src -d build -s --copy-files"
   }
 }
