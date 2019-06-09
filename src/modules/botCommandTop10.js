@@ -3,7 +3,7 @@ import { getAllCryptocurrencies } from 'api/coinMarketCap';
 import { parseTicker } from './parseTicker';
 import fetchTicker from './fetchTicker';
 
-module.exports = bot => {
+module.exports = (bot, webhook) => {
   bot.command(['top10', 'Top10', 'topten', 'TopTen', 'topTen'], async ctx => {
     ctx.reply('I’m searching…');
     try {
@@ -25,7 +25,11 @@ module.exports = bot => {
       }
       message += '/help to see the others commands!';
       ctx.replyWithMarkdown(message);
-    } catch (error) {
+    } catch (e) {
+      console.error(get(e, 'response.data') || e);
+      await webhook.send({
+        text: get(e, 'response.data') || e,
+      });
       ctx.reply('Sorry there is an error. Please try again in a few minutes.');
     }
   });

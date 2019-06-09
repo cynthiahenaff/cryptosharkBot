@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import fetchTicker from './fetchTicker';
 import { parseTicker } from './parseTicker';
 
-module.exports = async bot => {
+module.exports = async (bot, webhook) => {
   const { data } = await getAllCryptocurrencies({ limit: 2500 });
   const tickers = get(data, 'data', []);
 
@@ -42,6 +42,9 @@ module.exports = async bot => {
           );
         } catch (e) {
           console.error(get(e, 'response.data') || e);
+          await webhook.send({
+            text: get(e, 'response.data') || e,
+          });
           ctx.reply(
             'Sorry there is an error. Please try again in a few minutes.',
           );

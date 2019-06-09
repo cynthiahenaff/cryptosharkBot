@@ -2,6 +2,7 @@ require('dotenv').config();
 
 import { MongoClient } from 'mongodb';
 import Telegraf from 'telegraf';
+import { IncomingWebhook } from '@slack/webhook';
 
 const advertiseToChannel = require('./modules/advertiseToChannel');
 const messageToChannel = require('./modules/messageToChannel');
@@ -22,6 +23,19 @@ const botCommandAbout = require('./modules/botCommandAbout');
 
 const momId = parseInt(process.env.MOM_ID);
 
+const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
+
+//Catch uncaught exceptions
+process.on('uncaughtException', function(err) {
+  // handle the error safely
+  console.error(err);
+  (async () => {
+    await webhook.send({
+      text: err,
+    });
+  })();
+});
+
 (async () => {
   console.log('Bot is starting');
 
@@ -38,26 +52,33 @@ const momId = parseInt(process.env.MOM_ID);
 
   logMessages(bot, db);
 
-  botStart(bot, db, momId);
+  botStart(bot, db, momId, webhook);
 
   botCommandHelp(bot);
-  botCommandTop10(bot);
-  botCommandCurrency(bot);
-  botCommandBest1h(bot);
-  botCommandBest24h(bot);
-  botCommandBest7d(bot);
-  botCommandWorst1h(bot);
-  botCommandWorst24h(bot);
-  botCommandWorst7d(bot);
+  botCommandTop10(bot, webhook);
+  botCommandCurrency(bot, webhook);
+  botCommandBest1h(bot, webhook);
+  botCommandBest24h(bot, webhook);
+  botCommandBest7d(bot, webhook);
+  botCommandWorst1h(bot, webhook);
+  botCommandWorst24h(bot, webhook);
+  botCommandWorst7d(bot, webhook);
   botCommandMessagesLogs(bot, momId, db);
   botCommandUsers(bot, momId, db);
   botCommandAbout(bot);
 
-  bot.startPolling(30, 100, null, () => {
+  bot.startPolling(30, 100, null, async () => {
     console.log('startPolling stopped');
+    await webhook.send({
+      text: 'startPolling stopped',
+    });
   });
   console.log('Bot is ready');
 
-  messageToChannel(bot, channelId);
+  await webhook.send({
+    text: 'Bot is ready…',
+  });
+
+  messageToChannel(bot, channelId, webhook);
   advertiseToChannel(bot, channelId);
 })();
