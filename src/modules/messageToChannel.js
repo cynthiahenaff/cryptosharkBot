@@ -1,10 +1,10 @@
 import { get } from 'lodash';
 import { getAllCryptocurrencies } from 'api/coinMarketCap';
-import { parseTicker } from './parseTicker';
+import { parseTicker } from 'utils/parseTicker';
 import delay from 'timeout-as-promise';
 import fetchTicker from './fetchTicker';
 
-module.exports = (bot, channelId, webhook) => {
+const messageToChannel = (bot, channelId) => {
   const messageToChannel = async () => {
     const minutes = new Date().getMinutes();
     if (minutes !== 0) {
@@ -59,9 +59,6 @@ module.exports = (bot, channelId, webhook) => {
         });
         break;
       } catch (error) {
-        await webhook.send({
-          text: error,
-        });
         await delay(10 * 1000);
       }
     }
@@ -69,3 +66,5 @@ module.exports = (bot, channelId, webhook) => {
 
   setInterval(messageToChannel, 60 * 1000);
 };
+
+export default messageToChannel;

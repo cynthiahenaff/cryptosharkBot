@@ -1,6 +1,6 @@
 import { getAllCryptocurrencies } from 'api/coinMarketCap';
 
-module.exports = bot => {
+export default bot => {
   bot.command('about', async ctx => {
     const { data } = await getAllCryptocurrencies({ limit: 5000 });
     ctx.replyWithMarkdown(

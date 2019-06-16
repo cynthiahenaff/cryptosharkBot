@@ -1,22 +1,19 @@
 import axios from 'axios';
 import { decamelizeKeys } from 'humps';
-
-const apiKeys = [
-  process.env.CMC_API_KEY_1,
-  process.env.CMC_API_KEY_2,
-  process.env.CMC_API_KEY_3,
-];
+import lodash from 'lodash';
+import { errorHandling } from 'utils';
 
 const formatConfig = ({ params, ...opts } = {}) => ({
   ...opts,
   params: decamelizeKeys(params),
 });
 
-const formatResponse = response => {
-  return response;
-};
-
-const get = (uri, config = {}) => {
+const get = async (uri, config = {}) => {
+  const apiKeys = [
+    process.env.CMC_API_KEY_1,
+    process.env.CMC_API_KEY_2,
+    process.env.CMC_API_KEY_3,
+  ];
   const apiKeyIndex = Math.floor(Math.random() * 3);
 
   const api = axios.create({
@@ -26,7 +23,12 @@ const get = (uri, config = {}) => {
     },
   });
 
-  return api.get(uri, formatConfig(config)).then(formatResponse);
+  try {
+    const response = await api.get(uri, formatConfig(config));
+    return response;
+  } catch (e) {
+    errorHandling(lodash.get(e, 'response.data') || e);
+  }
 };
 
 export const getAllCryptocurrencies = params =>
