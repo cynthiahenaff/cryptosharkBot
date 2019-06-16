@@ -1,7 +1,7 @@
 import { getAllCryptocurrencies } from 'api/coinMarketCap';
 import { get } from 'lodash';
 
-const botCommandHelp = bot => {
+module.exports = bot => {
   bot.command('help', async ctx => {
     const { data } = await getAllCryptocurrencies({
       sortDir: 'desc',
@@ -24,11 +24,7 @@ const botCommandHelp = bot => {
       '\n/worst1h - 5 less performing currencies in the last hour' +
       '\n/worst24h - 5 less performing currencies in the last 24h' +
       '\n/worst7d - 5 less performing currencies in the last week' +
-      '\n\n/about - More informations about dev' +
-      '\n\n You want to receive the rate of the cryptocurrencies every hour, follow this link 👇' +
-      '\n[CryptoShark Channel](https://t.me/ButterInTheSpinach)';
+      '\n\n/about - More informations about dev';
     ctx.replyWithMarkdown(message);
   });
 };
-
-export default botCommandHelp;
