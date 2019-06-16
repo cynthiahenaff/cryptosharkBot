@@ -1,4 +1,4 @@
-const logMessages = async (bot, db) => {
+module.exports = async (bot, db) => {
   bot.use(async (ctx, next) => {
     if (ctx.updateType === 'message') {
       await db.collection('messages').insert(ctx.update.message);
@@ -6,5 +6,3 @@ const logMessages = async (bot, db) => {
     await next();
   });
 };
-
-export default logMessages;

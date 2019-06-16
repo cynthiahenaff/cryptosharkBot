@@ -4,32 +4,36 @@ import { MongoClient } from 'mongodb';
 import Telegraf from 'telegraf';
 import { IncomingWebhook } from '@slack/webhook';
 
-import advertiseToChannel from 'modules/advertiseToChannel';
-import messageToChannel from 'modules/messageToChannel';
-import logMessages from 'modules/logMessages';
-import botStart from 'modules/botStart';
-import botCommandHelp from 'modules/botCommandHelp';
-import botCommandTop10 from 'modules/botCommandTop10';
-import botCommandCurrency from 'modules/botCommandCurrency';
-import botCommandBest1h from 'modules/botCommandBest1h';
-import botCommandBest24h from 'modules/botCommandBest24h';
-import botCommandBest7d from 'modules/botCommandBest7d';
-import botCommandWorst1h from 'modules/botCommandWorst1h';
-import botCommandWorst24h from 'modules/botCommandWorst24h';
-import botCommandWorst7d from 'modules/botCommandWorst7d';
-import botCommandMessagesLogs from 'modules/botCommandMessagesLogs';
-import botCommandUsers from 'modules/botCommandUsers';
-import botCommandAbout from 'modules/botCommandAbout';
-import { errorHandling, logHandling } from 'utils';
+const advertiseToChannel = require('./modules/advertiseToChannel');
+const messageToChannel = require('./modules/messageToChannel');
+const logMessages = require('./modules/logMessages');
+const botStart = require('./modules/botStart');
+const botCommandHelp = require('./modules/botCommandHelp');
+const botCommandTop10 = require('./modules/botCommandTop10');
+const botCommandCurrency = require('./modules/botCommandCurrency');
+const botCommandBest1h = require('./modules/botCommandBest1h');
+const botCommandBest24h = require('./modules/botCommandBest24h');
+const botCommandBest7d = require('./modules/botCommandBest7d');
+const botCommandWorst1h = require('./modules/botCommandWorst1h');
+const botCommandWorst24h = require('./modules/botCommandWorst24h');
+const botCommandWorst7d = require('./modules/botCommandWorst7d');
+const botCommandMessagesLogs = require('./modules/botCommandMessagesLogs');
+const botCommandUsers = require('./modules/botCommandUsers');
+const botCommandAbout = require('./modules/botCommandAbout');
 
 const momId = parseInt(process.env.MOM_ID);
 
-export const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
+const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
 
 //Catch uncaught exceptions
 process.on('uncaughtException', function(err) {
   // handle the error safely
-  (async () => errorHandling(err))();
+  console.error(err);
+  (async () => {
+    await webhook.send({
+      text: err,
+    });
+  })();
 });
 
 (async () => {
@@ -48,7 +52,7 @@ process.on('uncaughtException', function(err) {
 
   logMessages(bot, db);
 
-  botStart(bot, db, momId);
+  botStart(bot, db, momId, webhook);
 
   botCommandHelp(bot);
   botCommandTop10(bot);
@@ -64,10 +68,16 @@ process.on('uncaughtException', function(err) {
   botCommandAbout(bot);
 
   bot.startPolling(30, 100, null, async () => {
-    await errorHandling('startPolling stopped');
+    console.log('startPolling stopped');
+    await webhook.send({
+      text: 'startPolling stopped',
+    });
   });
+  console.log('Bot is ready');
 
-  logHandling('Bot is ready…');
+  await webhook.send({
+    text: 'Bot is ready…',
+  });
 
   messageToChannel(bot, channelId, webhook);
   advertiseToChannel(bot, channelId);

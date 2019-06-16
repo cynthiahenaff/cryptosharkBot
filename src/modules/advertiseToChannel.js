@@ -1,4 +1,4 @@
-const advertiseToChannel = (bot, channelId) => {
+module.exports = (bot, channelId) => {
   const advertiseToChannel = async () => {
     const hours = new Date().getHours();
     const minutes = new Date().getMinutes();
@@ -12,5 +12,3 @@ const advertiseToChannel = (bot, channelId) => {
   };
   setInterval(advertiseToChannel, 60 * 1000);
 };
-
-export default advertiseToChannel;
