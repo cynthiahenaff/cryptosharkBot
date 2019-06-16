@@ -1,4 +1,6 @@
-module.exports = (bot, db, momId, webhook) => {
+import { logHandling } from 'utils';
+
+export default (bot, db, momId) => {
   bot.start(async ctx => {
     const user = await db.collection('users').findOne({ id: ctx.from.id });
     if (user === null) {
@@ -7,16 +9,11 @@ module.exports = (bot, db, momId, webhook) => {
 
     // Message mom with the new user's informations
     const messageToMom = `Hello mom, ${ctx.from.first_name || ''} ${ctx.from
-      .last_name || ''} talked with me 🤖💋`;
+      .last_name || ''} talked to me 🤖💋`;
+
     await bot.telegram.sendMessage(momId, messageToMom);
 
-    await webhook.send({
-      text: 'I have a good news…',
-    });
-    await webhook.send({
-      text: `${ctx.from.first_name || ''} ${ctx.from.last_name ||
-        ''} talked to with me 🤖💋`,
-    });
+    await logHandling('I have a good news…', messageToMom);
 
     return ctx.replyWithMarkdown(
       `Welcome ${
