@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 import { getAllCryptocurrencies } from 'api/coinMarketCap';
-import { parseTicker } from 'utils/parseTicker';
+import { parseTicker } from './parseTicker';
 
-export default bot => {
+module.exports = (bot, webhook) => {
   bot.command('best7d', async ctx => {
     ctx.reply('I’m searching…');
 
@@ -27,6 +27,10 @@ export default bot => {
       message += '/help to see the others commands!';
       ctx.replyWithMarkdown(message);
     } catch (e) {
+      console.error(get(e, 'response.data') || e);
+      await webhook.send({
+        text: get(e, 'response.data') || e,
+      });
       ctx.reply('Sorry there is an error. Please try again in a few minutes.');
     }
   });
