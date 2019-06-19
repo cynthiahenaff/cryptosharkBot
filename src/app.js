@@ -52,16 +52,16 @@ process.on('uncaughtException', function(err) {
 
   botCommandHelp(bot);
   botCommandTop10(bot);
-  // botCommandCurrency(bot);
-  // botCommandBest1h(bot);
-  // botCommandBest24h(bot);
-  // botCommandBest7d(bot);
-  // botCommandWorst1h(bot);
-  // botCommandWorst24h(bot);
-  // botCommandWorst7d(bot);
-  // botCommandMessagesLogs(bot, momId, db);
-  // botCommandUsers(bot, momId, db);
-  // botCommandAbout(bot);
+  botCommandCurrency(bot);
+  botCommandBest1h(bot);
+  botCommandBest24h(bot);
+  botCommandBest7d(bot);
+  botCommandWorst1h(bot);
+  botCommandWorst24h(bot);
+  botCommandWorst7d(bot);
+  botCommandMessagesLogs(bot, momId, db);
+  botCommandUsers(bot, momId, db);
+  botCommandAbout(bot);
 
   bot.startPolling(30, 100, null, async () => {
     await errorHandling('startPolling stopped');
