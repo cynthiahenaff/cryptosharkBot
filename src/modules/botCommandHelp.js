@@ -26,7 +26,7 @@ const botCommandHelp = bot => {
       '\n/worst7d - 5 less performing currencies in the last week' +
       '\n\n/about - More informations about dev' +
       '\n\n You want to receive the rate of the cryptocurrencies every hour, follow this link 👇' +
-      '\n[CryptoShark Channel](https://t.me/ButterInTheSpinach)';
+      '\n[CryptoShark Channel](https://t.me/cryptoshark_channel)';
     ctx.replyWithMarkdown(message);
   });
 };
