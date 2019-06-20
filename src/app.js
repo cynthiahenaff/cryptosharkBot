@@ -39,36 +39,51 @@ process.on('uncaughtException', function(err) {
   const db = await MongoClient.connect(process.env.MONGODB_URL);
 
   const channelId = process.env.CHANNEL_ID;
-  const bot = new Telegraf(process.env.TELEGRAM_TOKEN, {
-    username: process.env.TELEGRAM_USERNAME,
+  const bitsBot = new Telegraf(process.env.TELEGRAM_BITS_TOKEN, {
+    username: process.env.TELEGRAM_BITS_USERNAME,
     updates: {
       get_interval: 1000,
     },
   });
 
-  logMessages(bot, db);
-
-  botStart(bot, db, momId);
-
-  botCommandHelp(bot);
-  botCommandTop10(bot);
-  botCommandCurrency(bot);
-  botCommandBest1h(bot);
-  botCommandBest24h(bot);
-  botCommandBest7d(bot);
-  botCommandWorst1h(bot);
-  botCommandWorst24h(bot);
-  botCommandWorst7d(bot);
-  botCommandMessagesLogs(bot, momId, db);
-  botCommandUsers(bot, momId, db);
-  botCommandAbout(bot);
-
-  bot.startPolling(30, 100, null, async () => {
-    await errorHandling('startPolling stopped');
+  const csBot = new Telegraf(process.env.TELEGRAM_CS_TOKEN, {
+    username: process.env.TELEGRAM_CS_USERNAME,
+    updates: {
+      get_interval: 1000,
+    },
   });
 
-  logHandling('Bot is ready…');
+  const bots = [bitsBot, csBot];
 
-  messageToChannel(bot, channelId, webhook);
-  advertiseToChannel(bot, channelId);
+  for (const bot of bots) {
+    logMessages(bot, db);
+
+    botStart(bot, db, momId);
+
+    botCommandHelp(bot);
+    botCommandTop10(bot);
+    botCommandCurrency(bot);
+    botCommandBest1h(bot);
+    botCommandBest24h(bot);
+    botCommandBest7d(bot);
+    botCommandWorst1h(bot);
+    botCommandWorst24h(bot);
+    botCommandWorst7d(bot);
+    botCommandMessagesLogs(bot, momId, db);
+    botCommandUsers(bot, momId, db);
+    botCommandAbout(bot);
+
+    bot.startPolling(30, 100, null, async () => {
+      await errorHandling(`${bot.options.username} : startPolling stopped`);
+      // if error with telegram, exit after 10 seconds
+      setTimeout(() => {
+        process.exit(1);
+      }, 10 * 1000);
+    });
+
+    logHandling(`Bot ${bot.options.username} is ready…`);
+  }
+
+  messageToChannel(csBot, channelId, webhook);
+  advertiseToChannel(csBot, channelId);
 })();

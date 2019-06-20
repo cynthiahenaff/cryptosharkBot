@@ -16,7 +16,7 @@ export default async bot => {
       '-',
     )[1];
     const { data } = await getCryptocurrencyMeta(currencyAsked);
-    const t = get(data, `data[${currencyAsked}]`);
+    const t = get(data, `data[${currencyAsked}]`, {});
     return ctx.replyWithMarkdown(
       `[ ](${t.logo.replace('64x64', '128x128')})` +
         `\n/${t.symbol} - *${t.name}*` +

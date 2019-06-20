@@ -7,7 +7,7 @@ const advertiseToChannel = (bot, channelId) => {
       return;
     }
     const message =
-      'Don‘t forget, you can talk directly with me by clicking on this link @ButterInTheSpinachBot 🤖 and join my mom at https://twitter.com/monsieur_riz';
+      'Don’t forget, you can also talk to me directly 👉@cryptoshark\\_bot 🤖 and contact my developer 👉[@monsieur_riz](https://twitter.com/monsieur_riz)';
     bot.telegram.sendMessage(channelId, message);
   };
   setInterval(advertiseToChannel, 60 * 1000);
