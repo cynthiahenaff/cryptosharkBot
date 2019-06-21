@@ -27,9 +27,9 @@ export default (bot, momId, db) => {
     });
 
     ctx.replyWithMarkdown(
-      ['*This is the logs over last 24 hours.*\n', ...messagesToMom].join('\n'),
+      ['*These are the logs of last 24 hours.*\n', ...messagesToMom].join('\n'),
     );
 
-    logHandling('This is the logs over last 24 hours', messagesToMom);
+    logHandling('These are the logs over last 24 hours', messagesToMom);
   });
 };
