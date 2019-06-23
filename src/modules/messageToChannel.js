@@ -19,8 +19,7 @@ const messageToChannel = (bot, channelId) => {
         const tickers = get(data, 'data', []);
 
         let message =
-          '*Top 5 of cryptocurrencies* 🔝\n\n' +
-          '`     |  USD |  EUR |  1H  `\n';
+          '*Top 5 cryptocurrencies* 🔝\n\n' + '`     |  USD |  EUR |  1H  `\n';
 
         for (const t of tickers) {
           const ticker = await fetchTicker(t.symbol);
