@@ -4,12 +4,13 @@ import { parseTicker } from 'utils/parseTicker';
 import delay from 'timeout-as-promise';
 import fetchTicker from './fetchTicker';
 
-const messageToChannel = (bot, channelId) => {
+export default (bot, channelId) => {
   const messageToChannel = async () => {
     const minutes = new Date().getMinutes();
     if (minutes !== 0) {
       return;
     }
+
     while (true) {
       try {
         const { data } = await getAllCryptocurrencies({
@@ -63,7 +64,5 @@ const messageToChannel = (bot, channelId) => {
     }
   };
 
-  setInterval(messageToChannel, 60 * 1000);
+  setInterval(messageToChannel, 10 * 1000);
 };
-
-export default messageToChannel;
