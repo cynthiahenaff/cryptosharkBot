@@ -1,9 +1,9 @@
-# butterInTheSpinachBot
+#CryptoShark 🤖
 
+This bot on Telegram allows you to get the value of any crypto currency in real time in USD, EUR and BTC, as well as information related to it (description, creation date, technical documentation).
+It can also show the most and least efficient crypto currencies over the last hour, 24 hours or 7 days. 
+You now have all the info in hand to make your exchanges a success. 
 
-This is my first Node.js project. 
+https://t.me/cryptoshark_bot
 
-
-This bot is a bot on telegram that publish every hour the crypto market values. 
-
-https://t.me/ButterInTheSpinach
+Want to receive the rate of the cryptocurrencies every hour? Follow this link 👉 https://t.me/cryptoshark_channel 
