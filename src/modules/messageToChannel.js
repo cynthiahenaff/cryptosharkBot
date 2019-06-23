@@ -52,7 +52,7 @@ const messageToChannel = (bot, channelId) => {
         }
 
         message +=
-          '\nYou can ask me for *more* than *2500 currencies* by clicking on this link @ButterInTheSpinachBot 🤖';
+          '\nYou can ask me for *more* than *2500 currencies* by clicking on this link @cryptoshark_bot 🤖';
         bot.telegram.sendMessage(channelId, message, {
           parse_mode: 'Markdown',
         });

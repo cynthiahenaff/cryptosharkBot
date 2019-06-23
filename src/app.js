@@ -20,6 +20,7 @@ import botCommandWorst7d from 'modules/botCommandWorst7d';
 import botCommandMessagesLogs from 'modules/botCommandMessagesLogs';
 import botCommandUsers from 'modules/botCommandUsers';
 import botCommandAbout from 'modules/botCommandAbout';
+import unsupportedCommand from 'modules/unsupportedCommand';
 import { errorHandling, logHandling } from 'utils';
 
 const momId = parseInt(process.env.MOM_ID);
@@ -56,22 +57,23 @@ process.on('uncaughtException', function(err) {
   const bots = [bitsBot, csBot];
 
   for (const bot of bots) {
-    logMessages(bot, db);
+    await logMessages(bot, db);
 
-    botStart(bot, db, momId);
+    await botStart(bot, db, momId);
 
-    botCommandHelp(bot);
-    botCommandTop10(bot);
-    botCommandCurrency(bot);
-    botCommandBest1h(bot);
-    botCommandBest24h(bot);
-    botCommandBest7d(bot);
-    botCommandWorst1h(bot);
-    botCommandWorst24h(bot);
-    botCommandWorst7d(bot);
-    botCommandMessagesLogs(bot, momId, db);
-    botCommandUsers(bot, momId, db);
-    botCommandAbout(bot);
+    await botCommandCurrency(bot);
+    await botCommandHelp(bot);
+    await botCommandTop10(bot);
+    await botCommandBest1h(bot);
+    await botCommandBest24h(bot);
+    await botCommandBest7d(bot);
+    await botCommandWorst1h(bot);
+    await botCommandWorst24h(bot);
+    await botCommandWorst7d(bot);
+    await botCommandMessagesLogs(bot, momId, db);
+    await botCommandUsers(bot, momId, db);
+    await botCommandAbout(bot);
+    await unsupportedCommand(bot);
 
     bot.startPolling(30, 100, null, async () => {
       await errorHandling(`${bot.options.username} : startPolling stopped`);
