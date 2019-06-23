@@ -61,8 +61,8 @@ process.on('uncaughtException', function(err) {
 
     await botStart(bot, db, momId);
 
-    await botCommandCurrency(bot);
     await botCommandHelp(bot);
+    await botCommandCurrency(bot);
     await botCommandTop10(bot);
     await botCommandBest1h(bot);
     await botCommandBest24h(bot);
