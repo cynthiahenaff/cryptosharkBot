@@ -6,6 +6,7 @@ import { parseTicker } from 'utils/parseTicker';
 import Markup from 'telegraf/markup';
 import { format } from 'date-fns';
 import { errorHandling } from 'utils';
+import { ERROR } from 'utils/messages';
 
 export default async bot => {
   const { data } = await getAllCryptocurrencies({ limit: 2500 });
@@ -16,14 +17,14 @@ export default async bot => {
       '-',
     )[1];
     const { data } = await getCryptocurrencyMeta(currencyAsked);
-    const t = get(data, `data[${currencyAsked}]`);
+    const t = get(data, `data[${currencyAsked}]`, {});
     return ctx.replyWithMarkdown(
       `[ ](${t.logo.replace('64x64', '128x128')})` +
         `\n/${t.symbol} - *${t.name}*` +
         `\n\n${t.description}` +
-        `\n\nCreation date : ${format(t.date_added, 'DD MMMM YYYY')}` +
-        `\n\nWebsite : [${get(t, 'urls.website')}](${get(t, 'urls.website')})` +
-        `\n\nTechnical doc : [${get(t, 'urls.technical_doc')}](${get(
+        `\n\nCreation date: ${format(t.date_added, 'DD MMMM YYYY')}` +
+        `\n\nWebsite: [${get(t, 'urls.website')}](${get(t, 'urls.website')})` +
+        `\n\nTechnical doc: [${get(t, 'urls.technical_doc')}](${get(
           t,
           'urls.technical_doc',
         )})`,
@@ -69,9 +70,7 @@ export default async bot => {
         } catch (e) {
           errorHandling(get(e, 'response.data') || e);
 
-          ctx.reply(
-            'Sorry there is an error. Please try again in few minutes.',
-          );
+          ctx.reply(ERROR);
         }
       },
     );

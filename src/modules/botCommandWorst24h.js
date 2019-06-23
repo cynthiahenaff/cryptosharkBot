@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import { getAllCryptocurrencies } from 'api/coinMarketCap';
 import { parseTicker } from 'utils/parseTicker';
+import { ERROR } from 'utils/messages';
 
 export default bot => {
   bot.command('worst24h', async ctx => {
@@ -27,7 +28,7 @@ export default bot => {
       message += '/help to see the others commands!';
       ctx.replyWithMarkdown(message);
     } catch (e) {
-      ctx.reply('Sorry there is an error. Please try again in a few minutes.');
+      ctx.reply(ERROR);
     }
   });
 };

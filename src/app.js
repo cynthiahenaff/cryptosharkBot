@@ -20,6 +20,7 @@ import botCommandWorst7d from 'modules/botCommandWorst7d';
 import botCommandMessagesLogs from 'modules/botCommandMessagesLogs';
 import botCommandUsers from 'modules/botCommandUsers';
 import botCommandAbout from 'modules/botCommandAbout';
+import unsupportedCommand from 'modules/unsupportedCommand';
 import { errorHandling, logHandling } from 'utils';
 
 const momId = parseInt(process.env.MOM_ID);
@@ -39,36 +40,52 @@ process.on('uncaughtException', function(err) {
   const db = await MongoClient.connect(process.env.MONGODB_URL);
 
   const channelId = process.env.CHANNEL_ID;
-  const bot = new Telegraf(process.env.TELEGRAM_TOKEN, {
-    username: process.env.TELEGRAM_USERNAME,
+  const bitsBot = new Telegraf(process.env.TELEGRAM_BITS_TOKEN, {
+    username: process.env.TELEGRAM_BITS_USERNAME,
     updates: {
       get_interval: 1000,
     },
   });
 
-  logMessages(bot, db);
-
-  botStart(bot, db, momId);
-
-  botCommandHelp(bot);
-  botCommandTop10(bot);
-  botCommandCurrency(bot);
-  botCommandBest1h(bot);
-  botCommandBest24h(bot);
-  botCommandBest7d(bot);
-  botCommandWorst1h(bot);
-  botCommandWorst24h(bot);
-  botCommandWorst7d(bot);
-  botCommandMessagesLogs(bot, momId, db);
-  botCommandUsers(bot, momId, db);
-  botCommandAbout(bot);
-
-  bot.startPolling(30, 100, null, async () => {
-    await errorHandling('startPolling stopped');
+  const csBot = new Telegraf(process.env.TELEGRAM_CS_TOKEN, {
+    username: process.env.TELEGRAM_CS_USERNAME,
+    updates: {
+      get_interval: 1000,
+    },
   });
 
-  logHandling('Bot is ready…');
+  const bots = [bitsBot, csBot];
 
-  messageToChannel(bot, channelId, webhook);
-  advertiseToChannel(bot, channelId);
+  for (const bot of bots) {
+    await logMessages(bot, db);
+
+    await botStart(bot, db, momId);
+
+    await botCommandCurrency(bot);
+    await botCommandHelp(bot);
+    await botCommandTop10(bot);
+    await botCommandBest1h(bot);
+    await botCommandBest24h(bot);
+    await botCommandBest7d(bot);
+    await botCommandWorst1h(bot);
+    await botCommandWorst24h(bot);
+    await botCommandWorst7d(bot);
+    await botCommandMessagesLogs(bot, momId, db);
+    await botCommandUsers(bot, momId, db);
+    await botCommandAbout(bot);
+    await unsupportedCommand(bot);
+
+    bot.startPolling(30, 100, null, async () => {
+      await errorHandling(`${bot.options.username} : startPolling stopped`);
+      // if error with telegram, exit after 10 seconds
+      setTimeout(() => {
+        process.exit(1);
+      }, 10 * 1000);
+    });
+
+    logHandling(`Bot ${bot.options.username} is ready…`);
+  }
+
+  messageToChannel(csBot, channelId, webhook);
+  advertiseToChannel(csBot, channelId);
 })();
