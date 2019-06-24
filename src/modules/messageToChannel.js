@@ -64,5 +64,5 @@ export default (bot, channelId) => {
     }
   };
 
-  setInterval(messageToChannel, 10 * 1000);
+  setInterval(messageToChannel, 60 * 1000);
 };
