@@ -53,7 +53,7 @@ export default (bot, channelId) => {
         }
 
         message +=
-          '\nYou can ask me for *more* than *2500 currencies* by clicking on this link @cryptoshark_bot 🤖';
+          '\nYou can ask me for *more* than *2500 currencies* by clicking on this link @cryptoshark\\_bot 🤖';
 
         await bot.telegram.sendMessage(channelId, message, {
           parse_mode: 'Markdown',
