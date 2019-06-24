@@ -23,7 +23,7 @@ export default (bot, channelId) => {
           '*Top 5 cryptocurrencies* 🔝\n\n' + '`     |  USD |  EUR |  1H  `\n';
 
         for (const t of tickers) {
-          const ticker = await fetchTicker(t.symbol);
+          const ticker = await fetchTicker(t.symbol, 'baseValue');
           const tValue = await parseTicker(ticker, false);
           message += `\`${ticker.symbol.padEnd(
             5,
@@ -54,15 +54,15 @@ export default (bot, channelId) => {
 
         message +=
           '\nYou can ask me for *more* than *2500 currencies* by clicking on this link @cryptoshark_bot 🤖';
-        bot.telegram.sendMessage(channelId, message, {
-          parse_mode: 'Markdown',
-        });
+
+        await bot.telegram.sendMessage(channelId, message);
         break;
       } catch (error) {
-        await delay(10 * 1000);
+        console.error(error);
+        await delay(60 * 1000);
       }
     }
   };
 
-  setInterval(messageToChannel, 60 * 1000);
+  setInterval(messageToChannel, 10 * 1000);
 };
