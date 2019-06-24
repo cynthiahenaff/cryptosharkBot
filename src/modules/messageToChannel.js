@@ -55,14 +55,16 @@ export default (bot, channelId) => {
         message +=
           '\nYou can ask me for *more* than *2500 currencies* by clicking on this link @cryptoshark_bot 🤖';
 
-        await bot.telegram.sendMessage(channelId, message);
+        await bot.telegram.sendMessage(channelId, message, {
+          parse_mode: 'Markdown',
+        });
         break;
       } catch (error) {
         console.error(error);
-        await delay(60 * 1000);
+        await delay(10 * 1000);
       }
     }
   };
 
-  setInterval(messageToChannel, 10 * 1000);
+  setInterval(messageToChannel, 60 * 1000);
 };
