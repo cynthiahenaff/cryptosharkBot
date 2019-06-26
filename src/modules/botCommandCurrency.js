@@ -23,8 +23,11 @@ export default async bot => {
         `\n/${t.symbol} - *${t.name}*` +
         `\n\n${t.description}` +
         `\n\nCreation date: ${format(t.date_added, 'DD MMMM YYYY')}` +
-        `\n\nWebsite: [${get(t, 'urls.website')}](${get(t, 'urls.website')})` +
-        `\n\nTechnical doc: [${get(t, 'urls.technical_doc')}](${get(
+        `\n\nWebsite: [${get(t, 'urls.website', 'no website')}](${get(
+          t,
+          'urls.website',
+        )})` +
+        `\n\nTechnical doc: [${get(t, 'urls.technical_doc', 'no doc')}](${get(
           t,
           'urls.technical_doc',
         )})`,

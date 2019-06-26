@@ -23,7 +23,8 @@ export const logHandling = (title, message) => {
       {
         color: '#008D00',
         title: title,
-        text: message,
+        text: message && `\`\`\`\n${message}\n\`\`\``,
+        mrkdwn_in: ['text'],
       },
     ],
   });
