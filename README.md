@@ -11,6 +11,7 @@ Want to receive the rate of the cryptocurrencies every hour? Follow this link ðŸ
 You can vote for this bot on Product Hunt here ðŸ‘‡
 https://www.producthunt.com/posts/cryptoshark
 
+```
       ,|
      / ;
     /  \
@@ -27,3 +28,5 @@ https://www.producthunt.com/posts/cryptoshark
   CryptoShark  ,'    _,'.--,---------'
            _.-' _..-'   ),'
           ``--''        `
+          
+```          
