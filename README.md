@@ -7,3 +7,23 @@ You now have all the info in hand to make your exchanges a success.
 https://t.me/cryptoshark_bot
 
 Want to receive the rate of the cryptocurrencies every hour? Follow this link 👉 https://t.me/cryptoshark_channel 
+
+You can vote for this bot on Product Hunt here 👇
+https://www.producthunt.com/posts/cryptoshark
+
+      ,|
+     / ;
+    /  \
+   : ,'(
+   |( `.\
+   : \  `\       \.
+    \ `.         | `.
+     \  `-._     ;   \
+      \     ``-.'.. _ `._
+       `. `-.            ```-...__
+        .'`.        --..          ``-..____
+      ,'.-'`,_-._            ((((   <o.   ,'
+           `' `-.)``-._-...__````  ____.-'
+  CryptoShark  ,'    _,'.--,---------'
+           _.-' _..-'   ),'
+          ``--''        `
