@@ -1,5 +1,7 @@
 # CryptoShark 🤖
 
+<a href="https://www.producthunt.com/posts/cryptoshark?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-cryptoshark" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=159297&theme=light" alt="CryptoShark - Get the value of any crypto currency in real time. | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
+
 This bot on Telegram allows you to get the value of any crypto-currency in real time in USD, EUR and BTC, as well as information related to it (description, creation date, technical documentation).
 It can also show the most and least efficient crypto currencies over the last hour, 24 hours or 7 days. 
 You now have all the info in hand to make your exchanges a success.  
