@@ -4,7 +4,7 @@
 
 The world of crypto-currencies is a world that moves very fast and very impressively. So I create a bot who allows to get the values of any currencies in real time.
 
- <img src="https://www.datocms-assets.com/22029/1581614667-cryptoshark-16-9.jpg" alt="cryptoshark" width="400"/>
+ <img src="https://www.datocms-assets.com/22029/1581155473-cryptoshark.png" alt="cryptoshark" width="400"/>
 
 ## What is Cryptoshark?
 

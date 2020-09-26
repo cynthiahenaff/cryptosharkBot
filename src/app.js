@@ -28,7 +28,7 @@ const momId = parseInt(process.env.MOM_ID);
 export const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
 
 //Catch uncaught exceptions
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', function (err) {
   // handle the error safely
   (async () => errorHandling(err))();
 });
@@ -37,7 +37,12 @@ process.on('uncaughtException', function(err) {
   console.log('Bot is starting');
 
   console.log('Connection to the database');
-  const db = await MongoClient.connect(process.env.MONGODB_URL);
+  const client = await MongoClient.connect(process.env.MONGODB_URL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  });
+
+  const db = client.db('admin');
 
   const channelId = process.env.CHANNEL_ID;
   const bitsBot = new Telegraf(process.env.TELEGRAM_BITS_TOKEN, {
