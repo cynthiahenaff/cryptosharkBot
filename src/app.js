@@ -42,7 +42,7 @@ process.on('uncaughtException', function (err) {
     useNewUrlParser: true,
   });
 
-  const db = client.db('admin');
+  const db = client.db(process.env.MONGODB_DB_NAME);
 
   const channelId = process.env.CHANNEL_ID;
   const bitsBot = new Telegraf(process.env.TELEGRAM_BITS_TOKEN, {
