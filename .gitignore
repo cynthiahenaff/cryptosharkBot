@@ -1,6 +1,9 @@
+.env.*
 .env
 node_modules
 build
 
 # File created by mac
 .DS_Store 
+
+docker

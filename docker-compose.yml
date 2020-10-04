@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  app:
+    container_name: cryptoshark-dev-app
+    hostname: cryptoshark-dev-app
+    build: 
+      context: .
+    links: 
+      - "mongo"
+    env_file: .env
+    command: ["yarn", "dev"]
+    restart: unless-stopped
+  mongo:
+    container_name: cryptoshark-dev-db
+    hostname: cryptoshark-dev-db
+    image: "mongo:3.6.20-xenial"
+    volumes:
+       - "./docker/mongo/db:/data/db"
+    ports: 
+      - 27018:27017
+    restart: unless-stopped
