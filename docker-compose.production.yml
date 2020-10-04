@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  app:
+    container_name: cryptoshark-app
+    hostname: cryptoshark-app
+    user: "1005"
+    build: 
+      context: .
+      args: 
+        USER_ID: "1005"
+    env_file: .env.production
+    command: /bin/sh -c "yarn run build && yarn run start"
+  mongo:
+    container_name: cryptoshark-db
+    hostname: cryptoshark-db
+    user: "1005"
+    volumes:
+       - "/home/cryptoshark/mongo/db:/data/db"
+    ports: 
+      - 27017:27017
