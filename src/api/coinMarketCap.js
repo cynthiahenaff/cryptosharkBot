@@ -27,7 +27,7 @@ const get = async (uri, config = {}) => {
     const response = await api.get(uri, formatConfig(config));
     return response;
   } catch (e) {
-    errorHandling(lodash.get(e, 'response.data') || e);
+    errorHandling(lodash.get(e, 'response.data', e), uri);
   }
 };
 

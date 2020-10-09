@@ -16,4 +16,4 @@ RUN yarn
 COPY . .
 
 ARG USER_ID
-RUN if [-n "${USER_ID}" ]; then chown -R ${USER_ID}:${USER_ID} /usr/src/app ; fi
+RUN test -n "${USER_ID}" && chown -R ${USER_ID}:${USER_ID} /usr/src/app

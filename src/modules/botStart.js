@@ -4,7 +4,9 @@ export default (bot, db, momId) => {
   bot.start(async ctx => {
     const user = await db.collection('users').findOne({ id: ctx.from.id });
     if (user === null) {
-      await db.collection('users').insertOne(ctx.from);
+      await db
+        .collection('users')
+        .insertOne({ ...ctx.from, createdAt: new Date() });
     }
 
     // Message mom with the new user's information

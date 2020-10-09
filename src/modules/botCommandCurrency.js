@@ -71,7 +71,7 @@ export default async bot => {
             ]).extra(),
           );
         } catch (e) {
-          errorHandling(get(e, 'response.data') || e);
+          errorHandling(get(e, 'response.data', e), t.symbol);
 
           ctx.reply(ERROR);
         }

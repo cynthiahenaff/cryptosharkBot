@@ -1,7 +1,7 @@
 import { webhook } from 'app';
 import { get } from 'lodash';
 
-export const errorHandling = error => {
+export const errorHandling = (error, prefix) => {
   console.error(error);
   webhook.send({
     attachments: [
@@ -10,7 +10,7 @@ export const errorHandling = error => {
         title: get(error, 'status.error_message')
           ? `⚠️ ERROR - ${get(error, 'status.error_message')}`
           : '⚠️ UNKNOWN ERROR',
-        text: JSON.stringify(error, null, 2),
+        text: Boolean(prefix) && prefix + JSON.stringify(error, null, 2),
       },
     ],
   });
