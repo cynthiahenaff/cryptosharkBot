@@ -37,7 +37,7 @@
     "@release-it/conventional-changelog": "2.0.0"
   },
   "scripts": {
-    "release": "release-it",
+    "release": "release-it --config ./release-it.json",
     "dev": "NODE_ENV=development ./node_modules/.bin/nodemon -I -L -P 2000 -w src/ src/appDev.js",
     "start": "NODE_ENV=production node build/app.js",
     "build": "rm -rf build && mkdir -p build && node_modules/.bin/babel src -d build -s --copy-files"
