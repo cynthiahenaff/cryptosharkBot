@@ -92,5 +92,5 @@ process.on('uncaughtException', function (err) {
   }
 
   messageToChannel(csBot, channelId, webhook);
-  advertiseToChannel(csBot, channelId);
+  // advertiseToChannel(csBot, channelId);
 })();

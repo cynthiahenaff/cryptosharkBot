@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { decamelizeKeys } from 'humps';
-import lodash from 'lodash';
 import { errorHandling } from 'utils';
 
 const formatConfig = ({ params, ...opts } = {}) => ({
@@ -26,8 +25,12 @@ const get = async (uri, config = {}) => {
   try {
     const response = await api.get(uri, formatConfig(config));
     return response;
-  } catch (e) {
-    errorHandling(lodash.get(e, 'response.data', e), uri);
+  } catch (err) {
+    errorHandling(
+      err?.response?.data || err,
+      `${apiKeys[apiKeyIndex].slice(-5)} \n
+      ${uri} - ${config?.params?.symbol} / ${config?.params?.convert}`,
+    );
   }
 };
 

@@ -1,5 +1,5 @@
 {
-  "name": "butterInTheSpinachBot",
+  "name": "cryptoshark",
   "version": "1.0.0",
   "main": "app.js",
   "license": "MIT",
@@ -7,6 +7,7 @@
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
     "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@babel/preset-env": "^7.11.5",
     "@babel/register": "^7.11.5",
     "@slack/webhook": "^5.0.0",
