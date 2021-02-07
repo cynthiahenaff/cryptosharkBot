@@ -5,10 +5,18 @@
     }
   },
   "hooks": {},
+  "npm": {
+    "publish": false
+  },
   "git": {
     "changelog": "git log --pretty=format:\"* %s (%h)\" ${from}...${to}",
     "commitMessage": "chore: release v${version}",
     "tag": true,
     "push": true
+  },
+  "github": {
+    "release": true,
+    "releaseName": "Release ${version}",
+    "tokenRef": "GITHUB_TOKEN"
   }
 }

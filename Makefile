@@ -1,4 +1,5 @@
-server="server-one.henaff.io"
+include .env
+export $(shell sed 's/=.*//' .env)
 
 deploy-dev:
 	docker-compose \
@@ -21,10 +22,10 @@ deploy:
 		-f docker-compose.yml \
 		-f docker-compose.production.yml \
 		--tlsverify \
-    --tlscacert=${HOME}/.docker/${server}/ca.pem \
-    --tlscert=${HOME}/.docker/${server}/cert.pem \
-    --tlskey=${HOME}/.docker/${server}/key.pem \
-    -H=${server}:2376 \
+    --tlscacert=${HOME}/.docker/${SERVER}/ca.pem \
+    --tlscert=${HOME}/.docker/${SERVER}/cert.pem \
+    --tlskey=${HOME}/.docker/${SERVER}/key.pem \
+    -H=${SERVER}:2376 \
     up \
     -d --build
 
@@ -33,10 +34,10 @@ logs:
 		-f docker-compose.yml \
 		-f docker-compose.production.yml \
 		--tlsverify \
-		--tlscacert=${HOME}/.docker/${server}/ca.pem \
-		--tlscert=${HOME}/.docker/${server}/cert.pem \
-		--tlskey=${HOME}/.docker/${server}/key.pem \
-    -H=${server}:2376 \
+		--tlscacert=${HOME}/.docker/${SERVER}/ca.pem \
+		--tlscert=${HOME}/.docker/${SERVER}/cert.pem \
+		--tlskey=${HOME}/.docker/${SERVER}/key.pem \
+    -H=${SERVER}:2376 \
     logs -f --tail=0
 
 dev: deploy-dev logs-dev

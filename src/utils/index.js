@@ -1,23 +1,20 @@
-import { webhook } from 'app';
-import { get } from 'lodash';
+import { IncomingWebhook } from '@slack/webhook';
 
-export const errorHandling = (error, prefix) => {
-  console.error(error);
+const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
+
+export const errorHandling = ({ title, body }) => {
   webhook.send({
     attachments: [
       {
         color: '#CC0000',
-        title: get(error, 'status.error_message')
-          ? `⚠️ ERROR - ${get(error, 'status.error_message')}`
-          : '⚠️ UNKNOWN ERROR',
-        text: Boolean(prefix) && prefix + JSON.stringify(error, null, 2),
+        title,
+        text: body,
       },
     ],
   });
 };
 
 export const logHandling = (title, message) => {
-  console.log(title);
   webhook.send({
     attachments: [
       {

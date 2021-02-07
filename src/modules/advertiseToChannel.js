@@ -1,9 +1,9 @@
-const advertiseToChannel = (bot, channelId) => {
+export default (bot, channelId) => {
   const advertiseToChannel = async () => {
-    const hours = new Date().getHours();
+    const hour = new Date().getHours();
     const minutes = new Date().getMinutes();
 
-    if (!(hours === 18 && minutes === 1)) {
+    if (!(hour === 18 && minutes === 1)) {
       return;
     }
     const message =
@@ -12,5 +12,3 @@ const advertiseToChannel = (bot, channelId) => {
   };
   setInterval(advertiseToChannel, 60 * 1000);
 };
-
-export default advertiseToChannel;

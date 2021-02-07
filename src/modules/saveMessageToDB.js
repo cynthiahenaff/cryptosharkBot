@@ -1,4 +1,4 @@
-const logMessages = async (bot, db) => {
+const saveMessageToDB = (bot, db) => {
   bot.use(async (ctx, next) => {
     if (ctx.updateType === 'message') {
       await db
@@ -9,4 +9,4 @@ const logMessages = async (bot, db) => {
   });
 };
 
-export default logMessages;
+export default saveMessageToDB;

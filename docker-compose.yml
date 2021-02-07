@@ -9,13 +9,11 @@ services:
       - "mongo"
     env_file: .env
     command: ["yarn", "dev"]
-    restart: unless-stopped
   mongo:
     container_name: cryptoshark-dev-db
     hostname: cryptoshark-dev-db
-    image: "mongo:4.4.1-bionic"
+    image: "mongo:4.4.3-bionic"
     volumes:
        - "./docker/mongo/db:/data/db"
     ports: 
       - 27018:27017
-    restart: unless-stopped

@@ -10,9 +10,9 @@ export default bot => {
     ctx.reply(
       'I’m sorry, I don’t understand 🤔 \nUse /help to see the main commands.',
     );
-    ctx.replyWithDocument({
-      url: 'https://media.giphy.com/media/5zgXE8TTwrOj2ndaNc/giphy.gif',
-      filename: 'bot.gif',
-    });
+    // ctx.replyWithDocument({
+    //   url: 'https://media.giphy.com/media/5zgXE8TTwrOj2ndaNc/giphy.gif',
+    //   filename: 'bot.gif',
+    // });
   });
 };

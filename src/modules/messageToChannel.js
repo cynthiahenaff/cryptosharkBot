@@ -1,68 +1,67 @@
-import { get } from 'lodash';
 import { getAllCryptocurrencies } from 'api/coinMarketCap';
-import { parseTicker } from 'utils/parseTicker';
-import delay from 'timeout-as-promise';
-import fetchTicker from './fetchTicker';
+import { parseValue } from 'utils/ticker';
+import getCurrencyQuote from './getCurrencyQuote';
+import getTopCurrencies from 'modules/db/getTopCurrencies';
+import getCurrenciesCount from 'modules/db/getCurrenciesCount';
 
-export default (bot, channelId) => {
+const channelId = process.env.CHANNEL_ID;
+
+export default (bot, db) => {
   const messageToChannel = async () => {
     const minutes = new Date().getMinutes();
     if (minutes !== 0) {
       return;
     }
 
-    while (true) {
-      try {
-        const { data } = await getAllCryptocurrencies({
-          sortDir: 'desc',
-          limit: 5,
-        });
-        const tickers = get(data, 'data', []);
+    try {
+      const count = await getCurrenciesCount(db);
+      const topCurrencies = await getTopCurrencies(db);
 
-        let message =
-          '*Top 5 cryptocurrencies* 🔝\n\n' + '`     |  USD |  EUR |  1H  `\n';
-
-        for (const t of tickers) {
-          const ticker = await fetchTicker(t.symbol, 'baseValue');
-          const tValue = await parseTicker(ticker, false);
-          message += `\`${ticker.symbol.padEnd(
+      const topCurrenciesMessages = await Promise.all(
+        (topCurrencies || []).map(async ({ symbol }) => {
+          const { quote } = await getCurrencyQuote({ db, symbol });
+          const { lastValueUsd, lastValueEur, changeOver1h } = await parseValue(
+            quote,
+            false,
+          );
+          return `\`${symbol.padEnd(5)}| ${lastValueUsd.padEnd(
             5,
-          )}| ${tValue.lastValueUsd.padEnd(5)}| ${tValue.lastValueEur.padEnd(
-            5,
-          )}|${tValue.changeOver1h.padStart(5)}%\`\n`;
-        }
+          )}| ${lastValueEur.padEnd(5)}|${changeOver1h.padStart(5)}%\``;
+        }),
+      );
 
-        message =
-          message +
-          '\n------------------------------\n' +
-          '*Best performing currencies* 🏅\n\n' +
-          '`      |    1H   `\n';
+      const { data: bestCurrenciesData } = await getAllCryptocurrencies({
+        sort: 'percent_change_1h',
+        sortDir: 'desc',
+        limit: 5,
+      });
 
-        const { data: bestCurrenciesData } = await getAllCryptocurrencies({
-          sort: 'percent_change_1h',
-          sortDir: 'desc',
-          limit: 5,
-        });
-        const bestTickers = get(bestCurrenciesData, 'data', []);
+      const bestCurrencies = bestCurrenciesData?.data ?? [];
 
-        for (const t of bestTickers) {
-          const tValue = await parseTicker(t, false);
-          message += `\`${t.symbol.padEnd(6)}| ${tValue.changeOver1h.padStart(
-            7,
-          )}%\`\n`;
-        }
+      const bestPerformingCurrenciesMessages = await Promise.all(
+        bestCurrencies.map(async ({ symbol, quote }) => {
+          const { changeOver1h } = await parseValue(quote, false);
+          return `\`${symbol.padEnd(6)}| ${changeOver1h.padStart(7)}%\``;
+        }),
+      );
 
-        message +=
-          '\nYou can ask me for *more* than *2500 currencies* by clicking on this link @cryptoshark\\_bot 🤖';
+      const message = [
+        '*Top 5 cryptocurrencies* 🔝\n',
+        '`     |  USD |  EUR |  1H  `',
+        ...topCurrenciesMessages,
+        '\n------------------------------\n',
+        '*Best performing currencies* 🏅\n',
+        '`      |    1H   `',
+        ...bestPerformingCurrenciesMessages,
+        `\nYou can ask me for *${count} currencies* by clicking on this link @cryptoshark\\_bot 🤖`,
+      ].join('\n');
 
-        await bot.telegram.sendMessage(channelId, message, {
-          parse_mode: 'Markdown',
-        });
-        break;
-      } catch (error) {
-        console.error(error);
-        await delay(10 * 1000);
-      }
+      await bot.telegram.sendMessage(channelId, message, {
+        parse_mode: 'Markdown',
+      });
+    } catch (error) {
+      console.error(error);
+      setTimeout(messageToChannel, 10 * 1000);
     }
   };
 

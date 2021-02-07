@@ -26,13 +26,22 @@ const get = async (uri, config = {}) => {
     const response = await api.get(uri, formatConfig(config));
     return response;
   } catch (err) {
-    errorHandling(
-      err?.response?.data || err,
-      `${apiKeys[apiKeyIndex].slice(-5)} \n
-      ${uri} - ${config?.params?.symbol} / ${config?.params?.convert}`,
-    );
+    // console.error(err);
+    errorHandling({
+      title: `API ERROR - ${apiKeys[apiKeyIndex].slice(-5)}`,
+      body: `${uri} - ${err?.config?.params?.symbol} / ${
+        err?.config?.params?.convert
+      }\n 
+      ${JSON.stringify(err?.response?.data, null, 2)}
+      `,
+    });
   }
 };
+
+export const getQuotesLatest = params =>
+  get('/cryptocurrency/quotes/latest', {
+    params: { convert: 'USD', ...params },
+  });
 
 export const getAllCryptocurrencies = params =>
   get('/cryptocurrency/listings/latest', {
@@ -50,3 +59,6 @@ export const getCryptocurrencyMeta = currency =>
       symbol: currency,
     },
   });
+
+export const getAllCryptocurrenciesMeta = params =>
+  get('/cryptocurrency/info', { params });

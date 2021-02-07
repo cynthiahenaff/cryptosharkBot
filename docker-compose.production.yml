@@ -10,6 +10,7 @@ services:
         USER_ID: "1005"
     env_file: .env.production
     command: /bin/sh -c "yarn run build && yarn run start"
+    restart: unless-stopped
   mongo:
     container_name: cryptoshark-db
     hostname: cryptoshark-db
@@ -18,3 +19,5 @@ services:
        - "/home/cryptoshark/mongo/db:/data/db"
     ports: 
       - 27017:27017
+    restart: unless-stopped
+

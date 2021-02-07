@@ -6,4 +6,6 @@ build
 # File created by mac
 .DS_Store 
 
+.vscode 
+
 docker
