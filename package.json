@@ -24,6 +24,7 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "date-fns": "^2.17.0",
     "dotenv": "^8.0.0",
+    "dotenv-cli": "^4.0.0",
     "eslint": "^7.19.0",
     "humps": "^2.0.1",
     "lodash": "^4.17.20",
@@ -38,7 +39,7 @@
     "release-it": "14.3.0"
   },
   "scripts": {
-    "release": "release-it --config ./release-it.json",
+    "release": "dotenv release-it --",
     "dev": "NODE_ENV=development ./node_modules/.bin/nodemon -I -L -P 2000 -w src/ src/appDev.js",
     "start": "NODE_ENV=production node build/app.js",
     "build": "rm -rf build && mkdir -p build && node_modules/.bin/babel src -d build -s --copy-files"
