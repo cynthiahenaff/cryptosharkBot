@@ -27,7 +27,7 @@
     "dotenv-cli": "^4.0.0",
     "eslint": "^7.19.0",
     "humps": "^2.0.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mongodb": "^3.6.4",
     "node-schedule": "^2.0.0",
     "nodemon": "^2.0.7",
