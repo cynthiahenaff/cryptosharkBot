@@ -46,3 +46,4 @@ For the crypto-currencies addicts, CryptoShark publishes every hour on a [channe
           ``--''        `
           
 ```          
+Create with love by [Cynthia Henaff](https://cynthiahenaff.com)
